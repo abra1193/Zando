@@ -18,7 +18,7 @@ abstract class BaseTest {
     }
 
     @AfterTest
-    fun tearDown()  {
+    fun tearDown() {
         driver.close()
     }
 }
