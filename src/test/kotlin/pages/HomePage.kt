@@ -1,15 +1,11 @@
 package pages
 
-import base.ZandoDriver
+import base.ScreensHandler
+import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
-import org.openqa.selenium.support.PageFactory
 
-class HomePage(driver: ZandoDriver) {
-    init {
-        PageFactory.initElements(driver, this)
-    }
-
+class HomePage(driver: WebDriver) : ScreensHandler(driver) {
     @FindBy(id = "header-user-account-icon")
     private val profileIcon: WebElement? = null
 
