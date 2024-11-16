@@ -16,9 +16,9 @@ abstract class ScreensHandler(private val driver: WebDriver) {
         PageFactory.initElements(driver, this)
     }
 
-    protected fun waitForElementVisibility(
+    protected fun waitForElementToBeVisible(
         element: WebElement,
-        timeOut: Long = 15L,
+        timeOut: Long = 5L,
     ) {
         WebDriverWait(driver, Duration.ofSeconds(timeOut))
             .until(elementDisplayed(element))

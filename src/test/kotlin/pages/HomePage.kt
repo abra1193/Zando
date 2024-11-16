@@ -7,9 +7,10 @@ import org.openqa.selenium.support.FindBy
 
 class HomePage(driver: WebDriver) : ScreensHandler(driver) {
     @FindBy(id = "header-user-account-icon")
-    private val profileIcon: WebElement? = null
+    private lateinit var profileIcon: WebElement
 
     fun tapOnProfileIcon() {
-        profileIcon!!.click()
+        waitForElementToBeVisible(profileIcon)
+        profileIcon.click()
     }
 }

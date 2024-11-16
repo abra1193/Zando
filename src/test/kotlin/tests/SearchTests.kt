@@ -4,6 +4,7 @@ import base.BaseTest
 import org.testng.annotations.Test
 
 class SearchTests() : BaseTest() {
+
     @Test
     fun `Verify user can search a product based on the given search keywords`() {
     }
