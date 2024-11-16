@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Zando E2E test suite" verbose="4" thread-count="2" parallel="false">
+    <test name="Zando E2E tests">
+        <parameter name="browser" value="chrome">
+<classes>
+    <class name="tests.ProfileTests"/>
+    <class name="tests.OrderTests"/>
+    <class name="tests.SearchTests"/>
+</classes>
+        </parameter>
+    </test>
+</suite>
