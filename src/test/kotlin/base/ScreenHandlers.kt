@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
 import java.time.Duration
 
-abstract class ScreensHandler(private val driver: WebDriver) {
+abstract class ScreenHandlers(private val driver: WebDriver) {
     init {
         PageFactory.initElements(driver, this)
     }

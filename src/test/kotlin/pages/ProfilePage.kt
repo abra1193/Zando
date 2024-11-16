@@ -1,6 +1,6 @@
 package pages
 
-import base.ScreensHandler
+import base.ScreenHandlers
 import org.openqa.selenium.WebDriver
 
-class ProfilePage(driver: WebDriver) : ScreensHandler(driver)
+class ProfilePage(driver: WebDriver) : ScreenHandlers(driver)

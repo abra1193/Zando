@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Zando E2E test suite">
-    <test name ="ProfileTest" parallel="tests" thread-count="3">
-        <parameter name="browser" value="firefox">
-<classes>
-        <class name="tests.ProfileTests"/>
-</classes>
+<suite name="Zando E2E test suite" parallel="classes" thread-count="2">
+    <test name ="ProfileTest">
+        <parameter name="browser" value="chrome">
+            <classes>
+                <class name="tests.ProfileTests"/>
+            </classes>
+        </parameter>
+    </test>
+    <test name ="OrderTests">
+        <parameter name="browser" value="chrome">
+            <classes>
+                <class name="tests.OrderTests"/>
+            </classes>
+        </parameter>
+    </test>
+    <test name ="SearchTests">
+        <parameter name="browser" value="chrome">
+            <classes>
+                    <class name="tests.SearchTests"/>
+            </classes>
         </parameter>
     </test>
 </suite>

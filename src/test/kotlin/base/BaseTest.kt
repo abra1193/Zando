@@ -21,15 +21,13 @@ abstract class BaseTest {
             "firefox" -> WebDriverManager.firefoxdriver().setup()
             else -> throw IllegalArgumentException("Browser $browserName not available")
         }
-        if (browserName == "chrome")
-            {
-                driver = ChromeDriver()
-                zando = Zando(driver)
-            } else
-            {
-                driver = FirefoxDriver()
-                zando = Zando(driver)
-            }
+        if (browserName == "chrome") {
+            driver = ChromeDriver()
+            zando = Zando(driver)
+        } else {
+            driver = FirefoxDriver()
+            zando = Zando(driver)
+        }
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS)
         driver.manage().window().maximize()
         driver.get("https://en.zalando.de/")
