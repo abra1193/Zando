@@ -11,14 +11,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
 import java.time.Duration
 
-abstract class ScreenHandlers(private val driver: WebDriver) {
+abstract class ScreenHandlers(val driver: WebDriver) {
     init {
         PageFactory.initElements(driver, this)
     }
 
     protected fun waitForElementToBeVisible(
         element: WebElement,
-        timeOut: Long = 5L,
+        timeOut: Long = 0L,
     ) {
         WebDriverWait(driver, Duration.ofSeconds(timeOut))
             .until(elementDisplayed(element))
