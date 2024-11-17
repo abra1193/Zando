@@ -6,7 +6,7 @@ import org.testng.annotations.Test
 class ProfileTests : BaseTest() {
     @Test
     fun `Verify user can create a profile with valid data`() {
-        zando.homePage().tapOnProfileIcon()
+        zando.homePage().tapOnProfileButton()
     }
 
     @Test

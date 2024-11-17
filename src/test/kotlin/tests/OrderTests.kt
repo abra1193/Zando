@@ -5,9 +5,8 @@ import org.testng.annotations.Test
 
 class OrderTests : BaseTest() {
     @Test
-
     fun `Verify user can add a product in the shopping cart`() {
-        zando.homePage().tapOnShoppingCartIcon()
+        zando.homePage().tapOnShoppingCartButton()
     }
 
     @Test
