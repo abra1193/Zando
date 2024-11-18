@@ -3,23 +3,29 @@
 <suite name="Zando E2E test suite" parallel="classes" thread-count="2">
     <test name ="ProfileTest">
         <parameter name="browser" value="chrome">
+        <parameter name="baseUrl" value="https://en.zalando.de/">
             <classes>
                 <class name="tests.profileTests.ProfileTests"/>
             </classes>
         </parameter>
+        </parameter>
     </test>
     <test name ="OrderTests">
         <parameter name="browser" value="chrome">
+        <parameter name="baseUrl" value="https://en.zalando.de/">
             <classes>
                 <class name="tests.orderTests.OrderTests"/>
             </classes>
         </parameter>
+        </parameter>
     </test>
     <test name ="SearchTests">
         <parameter name="browser" value="chrome">
+        <parameter name="baseUrl" value="https://en.zalando.de/">
             <classes>
                     <class name="tests.searchTests.SearchTests"/>
             </classes>
+        </parameter>
         </parameter>
     </test>
 </suite>

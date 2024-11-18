@@ -27,29 +27,15 @@ open class BaseTest {
 
     val searchPage: SearchPage by lazy { SearchPage(driver) }
 
-    @Parameters("browser")
+    @Parameters("browser", "baseUrl")
     @BeforeClass
-    fun setup(browserName: String) {
+    fun setup(browserName: String, baseUrl: String) {
         driver =
-            initializeDriver(browserName).apply {
+            DriverFactory.initializeDriver(browserName).apply {
                 manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS)
                 manage().window().maximize()
-                get("https://en.zalando.de/")
+                get(baseUrl)
             }
-    }
-
-    private fun initializeDriver(browserName: String): WebDriver {
-        return when (browserName.lowercase(Locale.getDefault())) {
-            "chrome" -> {
-                chromedriver().setup()
-                ChromeDriver()
-            }
-            "firefox" -> {
-                firefoxdriver().setup()
-                FirefoxDriver()
-            }
-            else -> throw IllegalArgumentException("Browser $browserName not available")
-        }
     }
 
     @AfterTest
