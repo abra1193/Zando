@@ -8,7 +8,6 @@ import org.openqa.selenium.firefox.FirefoxDriver
 import java.util.Locale
 
 object DriverFactory {
-
     fun initializeDriver(browserName: String): WebDriver {
         return when (browserName.lowercase(Locale.getDefault())) {
             "chrome" -> {

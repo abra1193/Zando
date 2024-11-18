@@ -1,19 +1,13 @@
 package base
 
-import io.github.bonigarcia.wdm.WebDriverManager.chromedriver
-import io.github.bonigarcia.wdm.WebDriverManager.firefoxdriver
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.firefox.FirefoxDriver
 import org.testng.annotations.AfterTest
 import org.testng.annotations.BeforeClass
-import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Parameters
 import pages.HomePage
 import pages.OrderPage
 import pages.ProfilePage
 import pages.SearchPage
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 open class BaseTest {
@@ -29,7 +23,10 @@ open class BaseTest {
 
     @Parameters("browser", "baseUrl")
     @BeforeClass
-    fun setup(browserName: String, baseUrl: String) {
+    fun setup(
+        browserName: String,
+        baseUrl: String,
+    ) {
         driver =
             DriverFactory.initializeDriver(browserName).apply {
                 manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS)

@@ -5,7 +5,7 @@ When the user taps on the Add to bag button
 Then the product is added successfully on the shopping cart
 
 Preconditions: TC1
-TC2 - Verify user can update the shopping carta
+TC2 - Verify user can update the shopping cart
 Given the user it's on the Shopping cart page and has a product in the cart
 When the user update the shopping cart product
 Then the product will be updated on the shopping cart

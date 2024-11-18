@@ -4,16 +4,16 @@ import base.BaseTest
 import org.testng.annotations.Test
 
 class OrderTests : BaseTest() {
-    @Test
+    @Test(priority = 0)
     fun `Verify user can add a product in the shopping cart`() {
         homePage.tapOnShoppingCartButton()
     }
 
-    @Test
+    @Test(priority = 1)
     fun `Verify user can update the shopping cart`() {
     }
 
-    @Test
+    @Test(priority = 2)
     fun `Verify user can proceed to the checkout page`() {
     }
 }

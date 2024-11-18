@@ -4,16 +4,16 @@ import base.BaseTest
 import org.testng.annotations.Test
 
 class ProfileTests : BaseTest() {
-    @Test
+    @Test(priority = 0)
     fun `Verify user can create a profile with valid data`() {
         homePage.tapOnProfileButton()
     }
 
-    @Test
+    @Test(priority = 1)
     fun `Verify user can login with profile data in the database`() {
     }
 
-    @Test
+    @Test(priority = 2)
     fun `Verify user can update the profile information with valid data`() {
     }
 }
