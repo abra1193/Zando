@@ -8,8 +8,8 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
         findElement(LocatorType.ID, "header-search-input")
     }
 
-    fun selectProduct(product: String): SearchPage {
-        searchBar.sendKeys(product)
+    fun selectProduct(): SearchPage {
+        searchBar.sendKeys(ProductList.entries.toTypedArray().random().productName)
         selectRandomSearchOption()
         return SearchPage(driver)
     }
@@ -22,5 +22,15 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
             )
         waitForElementToBeVisible(element)
         element.click()
+    }
+
+    enum class ProductList(val productName: String){
+        NORTH_FACE("The North Face"),
+        ADIDAS("Adidas"),
+        NIKE("Nike"),
+        NEW_BALANCE("New Balance"),
+        VOLCOM("Volcom"),
+        QUICK_SILVER("QuickSilver"),
+        CARHARTT("Carhartt")
     }
 }

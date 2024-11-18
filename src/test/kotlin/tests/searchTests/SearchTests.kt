@@ -6,8 +6,8 @@ import org.testng.annotations.Test
 class SearchTests : BaseTest() {
     @Test
     fun `Verify user can search a product based on the given search keywords`() {
-        zando.homePage().tapOnSearchButton()
-        zando.searchPage().selectProduct("The North Face")
+        homePage.tapOnSearchButton()
+        searchPage.selectProduct()
     }
 
     @Test
