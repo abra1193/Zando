@@ -1,20 +1,13 @@
 package pages
 
 import base.ScreenHandlers
-import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
-import org.openqa.selenium.support.FindBy
 
 class SearchPage(driver: WebDriver) : ScreenHandlers(driver) {
-    @FindBy(id = "header-search-input")
-    private lateinit var searchBar: WebElement
-
-    @FindBy(id = "reset-search-term-:R375d8cap:")
-    private lateinit var resetSearchButton: WebElement
-
-    @FindBy(id = "reset-search-term-:R375d8cap:")
-    private lateinit var searchResultTitle: WebElement
+    private val searchBar: WebElement by lazy {
+        findElement(LocatorType.ID, "header-search-input").webElement
+    }
 
     fun selectProduct(product: String): SearchPage {
         searchBar.sendKeys(product)
@@ -23,7 +16,11 @@ class SearchPage(driver: WebDriver) : ScreenHandlers(driver) {
     }
 
     private fun selectRandomSearchOption() {
-        val element = driver.findElement(By.id("header-search-option-${(0..9).random()}"))
+        val element =
+            findElement(
+                LocatorType.ID,
+                "header-search-option-${(0..9).random()}",
+            ).webElement
         waitForElementToBeVisible(element)
         element.click()
     }

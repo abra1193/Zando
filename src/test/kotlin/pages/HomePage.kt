@@ -4,25 +4,31 @@ import base.ScreenHandlers
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
-import org.openqa.selenium.support.FindBy
+import utils.TimeOuts.TIMEOUT_10_SECONDS
+
+private const val OK_BUTTON_CSS_SELECTOR = ".sc-dcJsrY.kXOIji"
 
 class HomePage(driver: WebDriver) : ScreenHandlers(driver) {
-    init {
-        waitForElementToBeVisible(profileButton)
-        cookiesBanner.shadowRoot.findElement(By.cssSelector(".sc-dcJsrY.kXOIji")).click()
+    private val cookiesBanner: WebElement by lazy {
+        findElement(LocatorType.CSS, "#usercentrics-root").webElement
     }
 
-    @FindBy(css = "#usercentrics-root")
-    private lateinit var cookiesBanner: WebElement
+    private val profileButton: WebElement by lazy {
+        findElement(LocatorType.ID, "header-user-account-icon").webElement
+    }
 
-    @FindBy(id = "header-user-account-icon")
-    private lateinit var profileButton: WebElement
+    private val shoppingCartButton: WebElement by lazy {
+        findElement(LocatorType.ID, "header-search-input").webElement
+    }
 
-    @FindBy(id = "header-user-actions-container")
-    private lateinit var shoppingCartButton: WebElement
+    private val searchBarButton: WebElement by lazy {
+        findElement(LocatorType.ID, "header-search-input").webElement
+    }
 
-    @FindBy(id = "header-search-input")
-    private lateinit var searchBarButton: WebElement
+    init {
+        waitForElementToBeVisible(profileButton, TIMEOUT_10_SECONDS)
+        cookiesBanner.shadowRoot.findElement(By.cssSelector(OK_BUTTON_CSS_SELECTOR)).click()
+    }
 
     fun tapOnProfileButton() {
         waitForElementToBeVisible(profileButton)

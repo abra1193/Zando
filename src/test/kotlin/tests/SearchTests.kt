@@ -10,11 +10,11 @@ class SearchTests : BaseTest() {
         zando.searchPage().selectProduct("The North Face")
     }
 
-//    @Test
-//    fun `Verify user can sort search results based on the given filters`() {
-//    }
-//
-//    @Test
-//    fun `Verify user can filter search results based on the given filters`() {
-//    }
+    @Test
+    fun `Verify user can sort search results based on the given filters`() {
+    }
+
+    @Test
+    fun `Verify user can filter search results based on the given filters`() {
+    }
 }

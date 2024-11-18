@@ -1,6 +1,6 @@
 package base
 
-import org.openqa.selenium.NoSuchElementException
+import org.openqa.selenium.By
 import org.openqa.selenium.StaleElementReferenceException
 import org.openqa.selenium.TimeoutException
 import org.openqa.selenium.WebDriver
@@ -16,12 +16,35 @@ abstract class ScreenHandlers(val driver: WebDriver) {
         PageFactory.initElements(driver, this)
     }
 
+    data class ElementWrapper(
+        val webElement: WebElement,
+        val locator: String,
+    )
+
+    fun findElement(
+        type: LocatorType,
+        value: String,
+    ): ElementWrapper {
+        val element =
+            when (type) {
+                LocatorType.ID -> driver.findElement(By.id(value))
+                LocatorType.XPATH -> driver.findElement(By.xpath(value))
+                LocatorType.CSS -> driver.findElement(By.cssSelector(value))
+            }
+        return ElementWrapper(element, "${type.prefix}('$value')")
+    }
+
     protected fun waitForElementToBeVisible(
         element: WebElement,
         timeOut: Long = 0L,
+        elementWrapper: ElementWrapper? = null,
     ) {
-        WebDriverWait(driver, Duration.ofSeconds(timeOut))
-            .until(elementDisplayed(element))
+        try {
+            WebDriverWait(driver, Duration.ofSeconds(timeOut))
+                .until(elementDisplayed(element))
+        } catch (e: TimeoutException) {
+            throw TimeoutException("Waiting for element to be visible with locator strategy: $elementWrapper")
+        }
     }
 
     private fun elementDisplayed(element: WebElement): ExpectedCondition<Boolean> {
@@ -65,5 +88,11 @@ abstract class ScreenHandlers(val driver: WebDriver) {
                 else -> throw e
             }
         }
+    }
+
+    enum class LocatorType(val prefix: String) {
+        ID("By.id"),
+        XPATH("By.xpath"),
+        CSS("By.cssSelector"),
     }
 }
