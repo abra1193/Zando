@@ -6,17 +6,29 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.testng.annotations.AfterTest
-import org.testng.annotations.BeforeTest
+import org.testng.annotations.BeforeClass
+import org.testng.annotations.BeforeMethod
 import org.testng.annotations.Parameters
+import pages.HomePage
+import pages.OrderPage
+import pages.ProfilePage
+import pages.SearchPage
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
-abstract class BaseTest {
-    protected lateinit var zando: Zando
+open class BaseTest {
     private lateinit var driver: WebDriver
 
+    val homePage: HomePage by lazy { HomePage(driver) }
+
+    val orderPage: OrderPage by lazy { OrderPage(driver) }
+
+    val profilePage: ProfilePage by lazy { ProfilePage(driver) }
+
+    val searchPage: SearchPage by lazy { SearchPage(driver) }
+
     @Parameters("browser")
-    @BeforeTest
+    @BeforeClass
     fun setup(browserName: String) {
         driver =
             initializeDriver(browserName).apply {
@@ -24,7 +36,6 @@ abstract class BaseTest {
                 manage().window().maximize()
                 get("https://en.zalando.de/")
             }
-        zando = Zando(driver)
     }
 
     private fun initializeDriver(browserName: String): WebDriver {

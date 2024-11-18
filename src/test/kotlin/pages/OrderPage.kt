@@ -1,6 +1,6 @@
 package pages
 
-import base.ScreenHandlers
+import base.ScreenHandler
 import org.openqa.selenium.WebDriver
 
-class OrderPage(driver: WebDriver) : ScreenHandlers(driver)
+class OrderPage(driver: WebDriver) : ScreenHandler(driver)

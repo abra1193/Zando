@@ -1,13 +1,13 @@
 package pages
 
-import base.ScreenHandlers
+import base.ScreenHandler
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import utils.TimeOuts.TIMEOUT_10_SECONDS
 
 private const val OK_BUTTON_CSS_SELECTOR = ".sc-dcJsrY.kXOIji"
 
-class HomePage(driver: WebDriver) : ScreenHandlers(driver) {
+class HomePage(driver: WebDriver) : ScreenHandler(driver) {
     private val cookiesBanner: ElementWrapper by lazy {
         findElement(LocatorType.CSS, "#usercentrics-root")
     }

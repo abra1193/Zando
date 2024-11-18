@@ -1,12 +1,12 @@
 package pages
 
-import base.ScreenHandlers
+import base.ScreenHandler
 import org.openqa.selenium.WebDriver
 import utils.RandomGenerators.generateNumericString
 import utils.RandomGenerators.generateRandomEmail
 import utils.RandomGenerators.generateString
 
-class ProfilePage(driver: WebDriver) : ScreenHandlers(driver) {
+class ProfilePage(driver: WebDriver) : ScreenHandler(driver) {
     private val emailField: ElementWrapper by lazy {
         findElement(LocatorType.ID, "lookup-email")
     }
