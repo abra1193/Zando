@@ -9,25 +9,25 @@ import utils.TimeOuts.TIMEOUT_10_SECONDS
 private const val OK_BUTTON_CSS_SELECTOR = ".sc-dcJsrY.kXOIji"
 
 class HomePage(driver: WebDriver) : ScreenHandlers(driver) {
-    private val cookiesBanner: WebElement by lazy {
-        findElement(LocatorType.CSS, "#usercentrics-root").webElement
+    private val cookiesBanner: ElementWrapper by lazy {
+        findElement(LocatorType.CSS, "#usercentrics-root")
     }
 
-    private val profileButton: WebElement by lazy {
-        findElement(LocatorType.ID, "header-user-account-icon").webElement
+    private val profileButton: ElementWrapper by lazy {
+        findElement(LocatorType.ID, "header-user-account-icon")
     }
 
-    private val shoppingCartButton: WebElement by lazy {
-        findElement(LocatorType.ID, "header-search-input").webElement
+    private val shoppingCartButton: ElementWrapper by lazy {
+        findElement(LocatorType.ID, "header-search-input")
     }
 
-    private val searchBarButton: WebElement by lazy {
-        findElement(LocatorType.ID, "header-search-input").webElement
+    private val searchBarButton: ElementWrapper by lazy {
+        findElement(LocatorType.ID, "header-search-input")
     }
 
     init {
         waitForElementToBeVisible(profileButton, TIMEOUT_10_SECONDS)
-        cookiesBanner.shadowRoot.findElement(By.cssSelector(OK_BUTTON_CSS_SELECTOR)).click()
+        cookiesBanner.webElement.shadowRoot.findElement(By.cssSelector(OK_BUTTON_CSS_SELECTOR)).click()
     }
 
     fun tapOnProfileButton() {

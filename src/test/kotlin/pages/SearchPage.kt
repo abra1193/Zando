@@ -5,8 +5,8 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
 class SearchPage(driver: WebDriver) : ScreenHandlers(driver) {
-    private val searchBar: WebElement by lazy {
-        findElement(LocatorType.ID, "header-search-input").webElement
+    private val searchBar: ElementWrapper by lazy {
+        findElement(LocatorType.ID, "header-search-input")
     }
 
     fun selectProduct(product: String): SearchPage {
@@ -20,7 +20,7 @@ class SearchPage(driver: WebDriver) : ScreenHandlers(driver) {
             findElement(
                 LocatorType.ID,
                 "header-search-option-${(0..9).random()}",
-            ).webElement
+            )
         waitForElementToBeVisible(element)
         element.click()
     }

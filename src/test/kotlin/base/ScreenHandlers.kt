@@ -19,7 +19,27 @@ abstract class ScreenHandlers(val driver: WebDriver) {
     data class ElementWrapper(
         val webElement: WebElement,
         val locator: String,
-    )
+    ) {
+        fun sendKeys(value: String) {
+            try {
+                webElement.sendKeys(value)
+            } catch (e: Exception) {
+                throw Exception("Failed to execute send key $value in the element with locator $locator - ${e.message}")
+            }
+        }
+
+        fun click()  {
+            try {
+                webElement.click()
+            } catch (e: Exception) {
+                throw Exception("Failed to execute click in the element with locator $locator - ${e.message}")
+            }
+        }
+
+        override fun toString(): String {
+            return locator
+        }
+    }
 
     fun findElement(
         type: LocatorType,
@@ -35,15 +55,15 @@ abstract class ScreenHandlers(val driver: WebDriver) {
     }
 
     protected fun waitForElementToBeVisible(
-        element: WebElement,
+        elementWrapper: ElementWrapper,
         timeOut: Long = 0L,
-        elementWrapper: ElementWrapper? = null,
     ) {
         try {
             WebDriverWait(driver, Duration.ofSeconds(timeOut))
-                .until(elementDisplayed(element))
+                .until(elementDisplayed(elementWrapper.webElement))
         } catch (e: TimeoutException) {
-            throw TimeoutException("Waiting for element to be visible with locator strategy: $elementWrapper")
+            val locator = elementWrapper.toString()
+            throw TimeoutException("Waiting for element to be visible with locator strategy: $locator")
         }
     }
 
