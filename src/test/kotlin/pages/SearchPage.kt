@@ -2,7 +2,6 @@ package pages
 
 import base.ScreenHandlers
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
 
 class SearchPage(driver: WebDriver) : ScreenHandlers(driver) {
     private val searchBar: ElementWrapper by lazy {

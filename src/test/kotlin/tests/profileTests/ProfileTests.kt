@@ -1,4 +1,4 @@
-package tests
+package tests.profileTests
 
 import base.BaseTest
 import org.testng.annotations.Test

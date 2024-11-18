@@ -4,22 +4,22 @@
     <test name ="ProfileTest">
         <parameter name="browser" value="chrome">
             <classes>
-                <class name="tests.ProfileTests"/>
+                <class name="tests.profileTests.ProfileTests"/>
             </classes>
         </parameter>
     </test>
-<!--    <test name ="OrderTests">-->
-<!--        <parameter name="browser" value="chrome">-->
-<!--            <classes>-->
-<!--                <class name="tests.OrderTests"/>-->
-<!--            </classes>-->
-<!--        </parameter>-->
-<!--    </test>-->
-<!--    <test name ="SearchTests">-->
-<!--        <parameter name="browser" value="chrome">-->
-<!--            <classes>-->
-<!--                    <class name="tests.SearchTests"/>-->
-<!--            </classes>-->
-<!--        </parameter>-->
-<!--    </test>-->
+    <test name ="OrderTests">
+        <parameter name="browser" value="chrome">
+            <classes>
+                <class name="tests.orderTests.OrderTests"/>
+            </classes>
+        </parameter>
+    </test>
+    <test name ="SearchTests">
+        <parameter name="browser" value="chrome">
+            <classes>
+                    <class name="tests.searchTests.SearchTests"/>
+            </classes>
+        </parameter>
+    </test>
 </suite>

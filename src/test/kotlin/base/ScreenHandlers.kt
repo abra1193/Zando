@@ -24,15 +24,15 @@ abstract class ScreenHandlers(val driver: WebDriver) {
             try {
                 webElement.sendKeys(value)
             } catch (e: Exception) {
-                throw Exception("Failed to execute send key $value in the element with locator $locator - ${e.message}")
+                throw Exception("Failed to execute send key $value in the element with locator $locator")
             }
         }
 
-        fun click()  {
+        fun click() {
             try {
                 webElement.click()
             } catch (e: Exception) {
-                throw Exception("Failed to execute click in the element with locator $locator - ${e.message}")
+                throw Exception("Failed to execute click in the element with locator $locator")
             }
         }
 
@@ -46,12 +46,20 @@ abstract class ScreenHandlers(val driver: WebDriver) {
         value: String,
     ): ElementWrapper {
         val element =
-            when (type) {
-                LocatorType.ID -> driver.findElement(By.id(value))
-                LocatorType.XPATH -> driver.findElement(By.xpath(value))
-                LocatorType.CSS -> driver.findElement(By.cssSelector(value))
+            try {
+                when (type) {
+                    LocatorType.ID -> driver.findElement(By.id(value))
+                    LocatorType.XPATH -> driver.findElement(By.xpath(value))
+                    LocatorType.CSS -> driver.findElement(By.cssSelector(value))
+                }
+            } catch (e: RuntimeException) {
+                throw
+                RuntimeException(
+                    "No such element: Unable to locate element: " +
+                        "${type.prefix}: '$value'",
+                )
             }
-        return ElementWrapper(element, "${type.prefix}('$value')")
+        return ElementWrapper(element, "${type.prefix}: '$value'")
     }
 
     protected fun waitForElementToBeVisible(
@@ -64,6 +72,19 @@ abstract class ScreenHandlers(val driver: WebDriver) {
         } catch (e: TimeoutException) {
             val locator = elementWrapper.toString()
             throw TimeoutException("Waiting for element to be visible with locator strategy: $locator")
+        }
+    }
+
+    protected fun waitForElementToBeClickable(
+        elementWrapper: ElementWrapper,
+        timeOut: Long = 0L,
+    ) {
+        try {
+            WebDriverWait(driver, Duration.ofSeconds(timeOut))
+                .until(ExpectedConditions.elementToBeClickable(elementWrapper.webElement))
+        } catch (e: TimeoutException) {
+            val locator = elementWrapper.toString()
+            throw TimeoutException("Waiting for element to be clickable with locator strategy: $locator")
         }
     }
 

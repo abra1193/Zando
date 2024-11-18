@@ -3,7 +3,6 @@ package pages
 import base.ScreenHandlers
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
 import utils.TimeOuts.TIMEOUT_10_SECONDS
 
 private const val OK_BUTTON_CSS_SELECTOR = ".sc-dcJsrY.kXOIji"
@@ -18,7 +17,7 @@ class HomePage(driver: WebDriver) : ScreenHandlers(driver) {
     }
 
     private val shoppingCartButton: ElementWrapper by lazy {
-        findElement(LocatorType.ID, "header-search-input")
+        findElement(LocatorType.XPATH, "//*[@data-testid=\"cart-link\"]")
     }
 
     private val searchBarButton: ElementWrapper by lazy {
