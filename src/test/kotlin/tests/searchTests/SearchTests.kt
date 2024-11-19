@@ -20,12 +20,12 @@ class SearchTests : BaseTest() {
     @Test(priority = 1, dependsOnMethods = ["Verify user can search a product based on the given search keywords"])
     fun `Verify user can filter search results based on the given filters`() {
         searchPage.filterProduct()
-        assertTrue { searchPage.isProductFilteredOnSearchPage() }
+        assertTrue { searchPage.isProductWithinSearchCriteria() }
     }
 
     @Test(priority = 2, dependsOnMethods = ["Verify user can filter search results based on the given filters"])
     fun `Verify user can sort search results based on the given filters`() {
         searchPage.sortProduct()
-        assertTrue { searchPage.isProductSortedOnSearchPage() }
+        assertTrue { searchPage.isProductWithinSearchCriteria(true) }
     }
 }

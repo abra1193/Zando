@@ -3,9 +3,10 @@ package pages
 import base.ScreenHandler
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
+import utils.TimeOuts.TIMEOUT_10_SECONDS
 
-var MINIMUM_PRICE = "0"
-var MAXIMUM_PRICE = "1"
+var mininumPrice = ""
+var maximumPrice = ""
 
 class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
     private val searchBar: ElementWrapper by lazy {
@@ -33,11 +34,19 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
     }
 
     private val lowestPriceSort: ElementWrapper by lazy {
-        findElement(LocatorType.XPATH, "//*[@for=\"sorting-PRICE_ASC\"]]")
+        findElement(LocatorType.XPATH, "//span[normalize-space()=\"Lowest Price\"]")
     }
 
     private val saveSortButton: ElementWrapper by lazy {
         findElement(LocatorType.XPATH, "//*[@aria-label=\"Save the Sort by filter\"]")
+    }
+
+    private val dealsPriceFilterButton: ElementWrapper by lazy {
+        findElement(LocatorType.XPATH, "//*[@for=\"sales\"]")
+    }
+
+    private val favoriteButton: ElementWrapper by lazy {
+        findElement(LocatorType.XPATH, "(//*[@aria-label='Add to wish list or remove from wish list'])")
     }
 
     fun searchProduct(productName: String): SearchPage {
@@ -57,6 +66,8 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
         waitForElementToBeVisible(saveSortButton)
         saveSortButton.click()
 
+        Thread.sleep(5000) // Added Thread.sleep to allow the search page to fully load after the sorting
+
         return this
     }
 
@@ -64,19 +75,19 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
         waitForElementToBeVisible(filterByPriceButton)
         filterByPriceButton.click()
 
-        waitForElementToBeVisible(minimumPriceField)
-        minimumPriceField.sendKeys(MINIMUM_PRICE)
-        MINIMUM_PRICE = retrieveTextFieldValue(minimumPriceField)
+        waitForElementToBeVisible(dealsPriceFilterButton)
+        dealsPriceFilterButton.click()
 
+        waitForElementToBeVisible(minimumPriceField)
+        mininumPrice = retrieveTextFieldValue(minimumPriceField)
 
         waitForElementToBeVisible(maximumPriceField)
-        maximumPriceField.clear()
-        maximumPriceField.sendKeys(MAXIMUM_PRICE)
-        MAXIMUM_PRICE = retrieveTextFieldValue(maximumPriceField)
-
+        maximumPrice = retrieveTextFieldValue(maximumPriceField)
 
         waitForElementToBeVisible(savePriceFilterButton)
         savePriceFilterButton.click()
+
+        Thread.sleep(5000) // Added Thread.sleep to allow the search page to fully load after the filter
 
         return this
     }
@@ -97,29 +108,41 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
         return products.any { it.contains(productName, ignoreCase = true) }
     }
 
-    fun isProductSortedOnSearchPage(): Boolean {
-        waitForElementToBeVisible(filterByPriceButton)
-        // val products = driver.findElements(By.xpath("//h3[contains(text(), '$productName')]")).map { it.text }
-        return true
-    }
-
-    fun isProductFilteredOnSearchPage(): Boolean {
-        waitForElementToBeVisible(filterByPriceButton)
-        val amounts =
+    fun isProductWithinSearchCriteria(isFirstPriceEqualToMin: Boolean = false): Boolean {
+        val elementWrappers: List<ElementWrapper> =
             driver.findElements(
                 By.xpath(
-                    "//span[contains(text(), '€') and string-length(text()) > 3 and \n" +
-                        "     not(preceding-sibling::span[contains(text(), 'Originally')]) and\n" +
+                    "//span[contains(text(), '€') and string-length(text()) > 3 and " +
+                        "     not(preceding-sibling::span[contains(text(), 'Originally')]) and" +
                         "     not(ancestor::a[contains(., 'Free delivery for orders over 29,90 €')])]",
                 ),
-            ).map { it.text }
+            ).map { webElement ->
+                ElementWrapper(
+                    webElement,
+                    "//span[contains(text(), '€') and string-length(text()) > 3 and " +
+                        "     not(preceding-sibling::span[contains(text(), 'Originally')]) and" +
+                        "     not(ancestor::a[contains(., 'Free delivery for orders over 29,90 €')])]",
+                )
+            }
+        elementWrappers.forEach {
+                elementWrapper ->
+            waitForElementToBeClickable(elementWrapper, TIMEOUT_10_SECONDS)
+        }
+        val amounts = elementWrappers.map { it.webElement.text }
         val amountInList =
             amounts.map { amountText ->
-                val cleanedAmount = amountText.replace("€", "").trim().replace(",", "").toInt()
-                cleanedAmount
+                val cleanedAmount = amountText.replace("€", "").trim().replace(",", "")
+                cleanedAmount.toFloat().div(100)
             }
-        val isAmountWithinRange = amountInList.any { amount -> amount in MINIMUM_PRICE.toInt()..MAXIMUM_PRICE.toInt() }
-        return isAmountWithinRange
+        return if (amountInList.isNotEmpty()) {
+            if (isFirstPriceEqualToMin) {
+                amountInList.first() >= mininumPrice.toFloat() && amountInList.first() <= maximumPrice.toFloat()
+            } else {
+                amountInList.any { amount -> amount in mininumPrice.toFloat()..maximumPrice.toFloat() }
+            }
+        } else {
+            false
+        }
     }
 
     enum class ProductList(val productName: String) {
