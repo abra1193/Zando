@@ -36,6 +36,22 @@ abstract class ScreenHandler(val driver: WebDriver) {
             }
         }
 
+        fun clear() {
+            try {
+                webElement.clear()
+            } catch (e: Exception) {
+                throw Exception("Failed to execute clear in the element with locator $locator")
+            }
+        }
+
+        fun getAttribute(attributeName: String): String? {
+            return try {
+                webElement.getAttribute(attributeName)
+            } catch (e: Exception) {
+                throw Exception("Failed to get attribute $attributeName in the element with locator $locator")
+            }
+        }
+
         override fun toString(): String {
             return locator
         }
@@ -60,6 +76,10 @@ abstract class ScreenHandler(val driver: WebDriver) {
                 )
             }
         return ElementWrapper(element, "${type.prefix}: '$value'")
+    }
+
+    fun retrieveTextFieldValue(elementWrapper: ElementWrapper): String {
+        return elementWrapper.getAttribute("value") ?: error("Value is not available")
     }
 
     protected fun waitForElementToBeVisible(
