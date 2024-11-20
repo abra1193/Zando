@@ -11,4 +11,5 @@ class ProfileTests : BaseTest() {
         homePage.tapOnProfileButton()
         assertTrue { profilePage.isProfilePageDisplayedCorrectly() }
     }
+    // Due to extra layer of security on portal the test will only be asserting presence of element on sign in page
 }

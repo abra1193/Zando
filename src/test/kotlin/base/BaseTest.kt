@@ -4,9 +4,9 @@ import org.openqa.selenium.WebDriver
 import org.testng.annotations.AfterTest
 import org.testng.annotations.BeforeClass
 import pages.HomePage
-import pages.OrderPage
 import pages.ProfilePage
 import pages.SearchPage
+import pages.ShoppingCartPage
 import java.time.Duration
 
 open class BaseTest {
@@ -14,7 +14,7 @@ open class BaseTest {
 
     val homePage: HomePage by lazy { HomePage(driver) }
 
-    val orderPage: OrderPage by lazy { OrderPage(driver) }
+    val shoppingCartPage: ShoppingCartPage by lazy { ShoppingCartPage(driver) }
 
     val profilePage: ProfilePage by lazy { ProfilePage(driver) }
 
