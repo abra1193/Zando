@@ -34,7 +34,7 @@ tasks.test {
     }
 
     val browserValue = System.getenv("BROWSER") ?: project.findProperty("browser") ?: "chrome"
-    val baseUrlValue = System.getenv("BASE_URL") ?: project.findProperty("base.url") ?: "https://en.zalando.de/"
+    val baseUrlValue = System.getenv("BASE_URL") ?: project.findProperty("base.url") ?: "https://en.zalando.de"
 
     systemProperty("browser", browserValue)
     systemProperty("baseUrl", baseUrlValue)
