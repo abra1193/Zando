@@ -7,7 +7,8 @@ class OrderTests : BaseTest() {
 
     @Test(priority = 0)
     fun `Verify user can add a product in the shopping cart`() {
-        homePage.tapOnShoppingCartButton()
+        homePage.tapOnSearchButton()
+        searchPage.searchProduct("New Balance 9060")
     }
 
     @Test(priority = 1, dependsOnMethods = ["Verify user can add a product in the shopping cart"])

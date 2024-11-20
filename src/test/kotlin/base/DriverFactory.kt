@@ -4,6 +4,7 @@ import io.github.bonigarcia.wdm.WebDriverManager.chromedriver
 import io.github.bonigarcia.wdm.WebDriverManager.firefoxdriver
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.firefox.FirefoxDriver
 import java.util.Locale
 
@@ -12,7 +13,9 @@ object DriverFactory {
         return when (browserName.lowercase(Locale.getDefault())) {
             "chrome" -> {
                 chromedriver().setup()
-                ChromeDriver()
+                val options = ChromeOptions()
+                options.setExperimentalOption("excludeSwitches", listOf("enable-automation"))
+                ChromeDriver(options)
             }
             "firefox" -> {
                 firefoxdriver().setup()
