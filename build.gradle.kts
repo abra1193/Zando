@@ -17,6 +17,7 @@ dependencies {
     implementation("org.seleniumhq.selenium:selenium-java:4.26.0")
     implementation("io.qameta.allure:allure-testng:2.29.0")
     testImplementation("org.testng:testng:7.10.2")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:5.9.1")
     testImplementation("io.github.bonigarcia:webdrivermanager:5.9.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.8.0")
 }

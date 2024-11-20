@@ -25,7 +25,6 @@ abstract class ScreenHandler(val driver: WebDriver) {
     ) {
         fun sendKeys(value: String) {
             try {
-                // logger.debug("Sending keys '$value' to element with locator: $locator")
                 webElement.sendKeys(value)
             } catch (e: ElementNotInteractableException) {
                 throw Exception("Element not interactable while sending keys '$value' to element with locator: $locator", e)
@@ -38,7 +37,6 @@ abstract class ScreenHandler(val driver: WebDriver) {
 
         fun click() {
             try {
-                // logger.debug("Clicking element with locator: $locator")
                 webElement.click()
             } catch (e: ElementNotInteractableException) {
                 throw Exception("Element not interactable while clicking element with locator: $locator", e)
@@ -51,7 +49,6 @@ abstract class ScreenHandler(val driver: WebDriver) {
 
         fun getAttribute(attributeName: String): String? {
             return try {
-                // logger.debug("Getting attribute '$attributeName' for element with locator: $locator")
                 webElement.getAttribute(attributeName)
             } catch (e: NoSuchElementException) {
                 throw Exception("Element with locator: $locator not found when getting attribute '$attributeName'", e)
@@ -100,7 +97,7 @@ abstract class ScreenHandler(val driver: WebDriver) {
         return ElementWrapper(element, "${type.prefix}: '$value'")
     }
 
-    fun retrieveTextFieldValue(elementWrapper: ElementWrapper): String {
+    fun getTextFromField(elementWrapper: ElementWrapper): String {
         return elementWrapper.getAttribute("value") ?: error("Value is not available")
     }
 

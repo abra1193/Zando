@@ -7,8 +7,12 @@ import utils.TimeOuts.TIMEOUT_10_SECONDS
 
 var mininumPrice = ""
 var maximumPrice = ""
+var productPricesXpath = "//span[contains(text(), '€') and string-length(text()) > 3 and " +
+    "     not(preceding-sibling::span[contains(text(), 'Originally')]) and" +
+    "     not(ancestor::a[contains(., 'Free delivery for orders over 29,90 €')])]"
 
 class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
+
     private val searchBar: ElementWrapper by lazy {
         findElement(LocatorType.ID, "header-search-input")
     }
@@ -56,6 +60,22 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
         return this
     }
 
+    fun selectProduct(): ProductPage {
+        val products = driver.findElements(By.xpath(productPricesXpath))
+
+        if (products.isNotEmpty()) {
+            for (product in products) {
+                if (isElementVisible(product)) {
+                    product.click()
+                    break
+                }
+            }
+        } else {
+            throw NoSuchElementException("No products found.")
+        }
+        return ProductPage(driver)
+    }
+
     fun sortProduct(): SearchPage {
         waitForElementToBeVisible(sortByButton)
         sortByButton.click()
@@ -79,10 +99,10 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
         dealsPriceFilterButton.click()
 
         waitForElementToBeVisible(minimumPriceField)
-        mininumPrice = retrieveTextFieldValue(minimumPriceField)
+        mininumPrice = getTextFromField(minimumPriceField)
 
         waitForElementToBeVisible(maximumPriceField)
-        maximumPrice = retrieveTextFieldValue(maximumPriceField)
+        maximumPrice = getTextFromField(maximumPriceField)
 
         waitForElementToBeVisible(savePriceFilterButton)
         savePriceFilterButton.click()
@@ -112,16 +132,12 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
         val elementWrappers: List<ElementWrapper> =
             driver.findElements(
                 By.xpath(
-                    "//span[contains(text(), '€') and string-length(text()) > 3 and " +
-                        "     not(preceding-sibling::span[contains(text(), 'Originally')]) and" +
-                        "     not(ancestor::a[contains(., 'Free delivery for orders over 29,90 €')])]"
+                    productPricesXpath
                 )
             ).map { webElement ->
                 ElementWrapper(
                     webElement,
-                    "//span[contains(text(), '€') and string-length(text()) > 3 and " +
-                        "     not(preceding-sibling::span[contains(text(), 'Originally')]) and" +
-                        "     not(ancestor::a[contains(., 'Free delivery for orders over 29,90 €')])]"
+                    productPricesXpath
                 )
             }
         elementWrappers.forEach {

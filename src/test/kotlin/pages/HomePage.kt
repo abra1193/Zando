@@ -30,17 +30,17 @@ class HomePage(driver: WebDriver) : ScreenHandler(driver) {
     }
 
     fun tapOnProfileButton() {
-        waitForElementToBeVisible(profileButton)
+        waitForElementToBeClickable(profileButton)
         profileButton.click()
     }
 
     fun tapOnShoppingCartButton() {
-        waitForElementToBeVisible(shoppingCartButton)
+        waitForElementToBeClickable(shoppingCartButton)
         shoppingCartButton.click()
     }
 
     fun tapOnSearchButton() {
-        waitForElementToBeVisible(searchBarButton)
+        waitForElementToBeClickable(searchBarButton)
         searchBarButton.click()
     }
 }
