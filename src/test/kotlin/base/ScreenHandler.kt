@@ -18,7 +18,7 @@ abstract class ScreenHandler(val driver: WebDriver) {
 
     data class ElementWrapper(
         val webElement: WebElement,
-        val locator: String,
+        val locator: String
     ) {
         fun sendKeys(value: String) {
             try {
@@ -59,7 +59,7 @@ abstract class ScreenHandler(val driver: WebDriver) {
 
     fun findElement(
         type: LocatorType,
-        value: String,
+        value: String
     ): ElementWrapper {
         val element =
             try {
@@ -72,7 +72,7 @@ abstract class ScreenHandler(val driver: WebDriver) {
                 throw
                 RuntimeException(
                     "No such element: Unable to locate element: " +
-                        "${type.prefix}: '$value'",
+                        "${type.prefix}: '$value'"
                 )
             }
         return ElementWrapper(element, "${type.prefix}: '$value'")
@@ -84,7 +84,7 @@ abstract class ScreenHandler(val driver: WebDriver) {
 
     protected fun waitForElementToBeVisible(
         elementWrapper: ElementWrapper,
-        timeOut: Long = 0L,
+        timeOut: Long = 0L
     ) {
         try {
             WebDriverWait(driver, Duration.ofSeconds(timeOut))
@@ -97,7 +97,7 @@ abstract class ScreenHandler(val driver: WebDriver) {
 
     protected fun waitForElementToBeClickable(
         elementWrapper: ElementWrapper,
-        timeOut: Long = 0L,
+        timeOut: Long = 0L
     ) {
         try {
             WebDriverWait(driver, Duration.ofSeconds(timeOut))
@@ -122,12 +122,12 @@ abstract class ScreenHandler(val driver: WebDriver) {
 
     protected fun isElementDisplayed(
         element: WebElement,
-        timeOut: Long = 0L,
+        timeOut: Long = 0L
     ): Boolean {
         try {
             WebDriverWait(driver, Duration.ofSeconds(timeOut))
                 .until(
-                    ExpectedConditions.visibilityOf(element),
+                    ExpectedConditions.visibilityOf(element)
                 )
         } catch (e: Exception) {
             when (e) {
@@ -154,6 +154,6 @@ abstract class ScreenHandler(val driver: WebDriver) {
     enum class LocatorType(val prefix: String) {
         ID("By.id"),
         XPATH("By.xpath"),
-        CSS("By.cssSelector"),
+        CSS("By.cssSelector")
     }
 }

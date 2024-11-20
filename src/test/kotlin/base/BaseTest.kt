@@ -3,15 +3,14 @@ package base
 import org.openqa.selenium.WebDriver
 import org.testng.annotations.AfterTest
 import org.testng.annotations.BeforeClass
-import org.testng.annotations.Parameters
 import pages.HomePage
 import pages.OrderPage
 import pages.ProfilePage
 import pages.SearchPage
-import java.util.concurrent.TimeUnit
+import java.time.Duration
 
 open class BaseTest {
-    private lateinit var driver: WebDriver
+    protected lateinit var driver: WebDriver
 
     val homePage: HomePage by lazy { HomePage(driver) }
 
@@ -21,17 +20,16 @@ open class BaseTest {
 
     val searchPage: SearchPage by lazy { SearchPage(driver) }
 
-    @Parameters("browser", "baseUrl")
     @BeforeClass
-    fun setup(
-        browserName: String,
-        baseUrl: String,
-    ) {
+    fun setup() {
+        val browser = System.getProperty("browser", "chrome")
+        val url = System.getProperty("baseUrl", "https://en.zalando.de/")
+
         driver =
-            DriverFactory.initializeDriver(browserName).apply {
-                manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS)
+            DriverFactory.initializeDriver(browser).apply {
+                manage().timeouts().implicitlyWait(Duration.ofSeconds(20))
                 manage().window().maximize()
-                get(baseUrl)
+                get(url)
             }
     }
 

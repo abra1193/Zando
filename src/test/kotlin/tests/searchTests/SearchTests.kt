@@ -6,6 +6,7 @@ import pages.SearchPage.ProductList
 import kotlin.test.assertTrue
 
 class SearchTests : BaseTest() {
+
     companion object {
         private var productName: String = ProductList.entries.toTypedArray().random().productName
     }

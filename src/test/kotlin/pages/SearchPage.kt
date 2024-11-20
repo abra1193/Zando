@@ -96,7 +96,7 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
         val element =
             findElement(
                 LocatorType.ID,
-                "header-search-option-${(1..9).random()}",
+                "header-search-option-${(1..9).random()}"
             )
         waitForElementToBeVisible(element)
         element.click()
@@ -114,14 +114,14 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
                 By.xpath(
                     "//span[contains(text(), '€') and string-length(text()) > 3 and " +
                         "     not(preceding-sibling::span[contains(text(), 'Originally')]) and" +
-                        "     not(ancestor::a[contains(., 'Free delivery for orders over 29,90 €')])]",
-                ),
+                        "     not(ancestor::a[contains(., 'Free delivery for orders over 29,90 €')])]"
+                )
             ).map { webElement ->
                 ElementWrapper(
                     webElement,
                     "//span[contains(text(), '€') and string-length(text()) > 3 and " +
                         "     not(preceding-sibling::span[contains(text(), 'Originally')]) and" +
-                        "     not(ancestor::a[contains(., 'Free delivery for orders over 29,90 €')])]",
+                        "     not(ancestor::a[contains(., 'Free delivery for orders over 29,90 €')])]"
                 )
             }
         elementWrappers.forEach {
@@ -148,6 +148,6 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
     enum class ProductList(val productName: String) {
         NORTH_FACE("The North Face"),
         VOLCOM("Volcom"),
-        QUICK_SILVER("Quiksilver"),
+        QUICK_SILVER("Quiksilver")
     }
 }

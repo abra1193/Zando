@@ -2,8 +2,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Zando E2E test suite" parallel="classes" thread-count="2">
     <test name ="ProfileTest">
-        <parameter name="browser" value="chrome">
-        <parameter name="baseUrl" value="https://en.zalando.de/">
+        <parameter name="browser" value="${browser}">
+        <parameter name="baseUrl" value="${baseUrl}">
             <classes>
                 <class name="tests.profileTests.ProfileTests"/>
             </classes>
@@ -11,8 +11,8 @@
         </parameter>
     </test>
     <test name ="OrderTests">
-        <parameter name="browser" value="chrome">
-        <parameter name="baseUrl" value="https://en.zalando.de/">
+        <parameter name="browser" value="${browser}">
+        <parameter name="baseUrl" value="${baseUrl}">
             <classes>
                 <class name="tests.orderTests.OrderTests"/>
             </classes>
@@ -20,8 +20,8 @@
         </parameter>
     </test>
     <test name ="SearchTests">
-        <parameter name="browser" value="chrome">
-        <parameter name="baseUrl" value="https://en.zalando.de/">
+        <parameter name="browser" value="${browser}">
+        <parameter name="baseUrl" value="${baseUrl}">
             <classes>
                     <class name="tests.searchTests.SearchTests"/>
             </classes>
