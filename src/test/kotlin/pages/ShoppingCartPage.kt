@@ -3,4 +3,4 @@ package pages
 import base.ScreenHandler
 import org.openqa.selenium.WebDriver
 
-class OrderPage(driver: WebDriver) : ScreenHandler(driver)
+class ShoppingCartPage(driver: WebDriver) : ScreenHandler(driver)

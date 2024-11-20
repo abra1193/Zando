@@ -1,9 +1,9 @@
-package tests.orderTests
+package tests.shoppingCartTests
 
 import base.BaseTest
 import org.testng.annotations.Test
 
-class OrderTests : BaseTest() {
+class ShoppingCartTests : BaseTest() {
 
     @Test(priority = 0)
     fun `Verify user can add a product in the shopping cart`() {

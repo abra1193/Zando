@@ -16,7 +16,6 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("org.seleniumhq.selenium:selenium-java:4.26.0")
     implementation("io.qameta.allure:allure-testng:2.29.0")
-    implementation("org.json:json:20210307")
     testImplementation("org.testng:testng:7.10.2")
     testImplementation("io.github.bonigarcia:webdrivermanager:5.9.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.8.0")

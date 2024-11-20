@@ -2,9 +2,6 @@ package pages
 
 import base.ScreenHandler
 import org.openqa.selenium.WebDriver
-import utils.RandomGenerators.generateNumericString
-import utils.RandomGenerators.generateRandomEmail
-import utils.RandomGenerators.generateString
 
 class ProfilePage(driver: WebDriver) : ScreenHandler(driver) {
     private val emailField: ElementWrapper by lazy {
@@ -28,23 +25,38 @@ class ProfilePage(driver: WebDriver) : ScreenHandler(driver) {
     }
 
     private val registerButton: ElementWrapper by lazy {
-        findElement(LocatorType.ID, "//*[@data-testid='register-button']")
+        findElement(LocatorType.XPATH, "//*[@data-testid='register-button']")
     }
 
-    fun registerNewProfile() {
-        waitForElementToBeVisible(emailField)
-        emailField.webElement.sendKeys(generateRandomEmail())
+    private val continueWithGoogleButton: ElementWrapper by lazy {
+        findElement(LocatorType.XPATH, "//span[normalize-space()=\"Continue with Google\"]")
+    }
 
-        waitForElementToBeVisible(continueButton)
-        continueButton.click()
+    private val continueWithFacebookButton: ElementWrapper by lazy {
+        findElement(LocatorType.XPATH, "//span[normalize-space()=\"Continue with Facebook\"]")
+    }
 
-        waitForElementToBeVisible(passwordField)
-        passwordField.sendKeys(generateNumericString(10))
+    private val continueWithAppleButton: ElementWrapper by lazy {
+        findElement(LocatorType.XPATH, "//span[normalize-space()=\"Continue with Apple\"]")
+    }
 
-        waitForElementToBeVisible(firstNameField)
-        firstNameField.sendKeys(generateString(5))
+    private val signOrRegisterText: ElementWrapper by lazy {
+        findElement(LocatorType.XPATH, "//h1[normalize-space()=\"Sign in or register\"]")
+    }
 
-        waitForElementToBeVisible(lastNameField)
-        lastNameField.sendKeys(generateString(5))
+    fun isProfilePageDisplayedCorrectly(): Boolean {
+        waitForElementToBeVisible(signOrRegisterText)
+
+        waitForElementToBeClickable(emailField)
+
+        waitForElementToBeClickable(continueButton)
+
+        waitForElementToBeClickable(continueWithGoogleButton)
+
+        waitForElementToBeClickable(continueWithAppleButton)
+
+        waitForElementToBeClickable(continueWithFacebookButton)
+
+        return signOrRegisterText.isDisplayed() && emailField.isDisplayed() && continueButton.isDisplayed() && continueWithGoogleButton.isDisplayed() && continueWithAppleButton.isDisplayed() && continueWithFacebookButton.isDisplayed()
     }
 }

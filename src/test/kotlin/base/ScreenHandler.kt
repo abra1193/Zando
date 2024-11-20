@@ -1,15 +1,18 @@
 package base
 
 import org.openqa.selenium.By
+import org.openqa.selenium.ElementNotInteractableException
 import org.openqa.selenium.StaleElementReferenceException
 import org.openqa.selenium.TimeoutException
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebDriverException
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.PageFactory
 import org.openqa.selenium.support.ui.ExpectedCondition
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
 import java.time.Duration
+import kotlin.NoSuchElementException
 
 abstract class ScreenHandler(val driver: WebDriver) {
     init {
@@ -22,33 +25,52 @@ abstract class ScreenHandler(val driver: WebDriver) {
     ) {
         fun sendKeys(value: String) {
             try {
+                // logger.debug("Sending keys '$value' to element with locator: $locator")
                 webElement.sendKeys(value)
-            } catch (e: Exception) {
-                throw Exception("Failed to execute send key $value in the element with locator $locator")
+            } catch (e: ElementNotInteractableException) {
+                throw Exception("Element not interactable while sending keys '$value' to element with locator: $locator", e)
+            } catch (e: StaleElementReferenceException) {
+                throw Exception("Stale element reference while sending keys '$value' to element with locator: $locator", e)
+            } catch (e: WebDriverException) {
+                throw Exception("WebDriver error while sending keys '$value' to element with locator: $locator", e)
             }
         }
 
         fun click() {
             try {
+                // logger.debug("Clicking element with locator: $locator")
                 webElement.click()
-            } catch (e: Exception) {
-                throw Exception("Failed to execute click in the element with locator $locator")
-            }
-        }
-
-        fun clear() {
-            try {
-                webElement.clear()
-            } catch (e: Exception) {
-                throw Exception("Failed to execute clear in the element with locator $locator")
+            } catch (e: ElementNotInteractableException) {
+                throw Exception("Element not interactable while clicking element with locator: $locator", e)
+            } catch (e: StaleElementReferenceException) {
+                throw Exception("Stale element reference while clicking element with locator: $locator", e)
+            } catch (e: WebDriverException) {
+                throw Exception("WebDriver error while clicking element with locator: $locator", e)
             }
         }
 
         fun getAttribute(attributeName: String): String? {
             return try {
+                // logger.debug("Getting attribute '$attributeName' for element with locator: $locator")
                 webElement.getAttribute(attributeName)
-            } catch (e: Exception) {
-                throw Exception("Failed to get attribute $attributeName in the element with locator $locator")
+            } catch (e: NoSuchElementException) {
+                throw Exception("Element with locator: $locator not found when getting attribute '$attributeName'", e)
+            } catch (e: StaleElementReferenceException) {
+                throw Exception("Stale element reference while getting attribute '$attributeName' from element with locator: $locator", e)
+            } catch (e: WebDriverException) {
+                throw Exception("WebDriver error while getting attribute '$attributeName' from element with locator: $locator", e)
+            }
+        }
+
+        fun isDisplayed(): Boolean {
+            return try {
+                webElement.isDisplayed
+            } catch (e: RuntimeException) {
+                false
+            } catch (e: StaleElementReferenceException) {
+                false
+            } catch (e: WebDriverException) {
+                false
             }
         }
 
@@ -89,9 +111,9 @@ abstract class ScreenHandler(val driver: WebDriver) {
         try {
             WebDriverWait(driver, Duration.ofSeconds(timeOut))
                 .until(elementDisplayed(elementWrapper.webElement))
-        } catch (e: TimeoutException) {
+        } catch (e: RuntimeException) {
             val locator = elementWrapper.toString()
-            throw TimeoutException("Waiting for element to be visible with locator strategy: $locator")
+            throw RuntimeException("Waiting for element to be visible with locator strategy: $locator")
         }
     }
 
@@ -102,16 +124,16 @@ abstract class ScreenHandler(val driver: WebDriver) {
         try {
             WebDriverWait(driver, Duration.ofSeconds(timeOut))
                 .until(ExpectedConditions.elementToBeClickable(elementWrapper.webElement))
-        } catch (e: TimeoutException) {
+        } catch (e: RuntimeException) {
             val locator = elementWrapper.toString()
-            throw TimeoutException("Waiting for element to be clickable with locator strategy: $locator")
+            throw RuntimeException("Waiting for element to be clickable with locator strategy: $locator")
         }
     }
 
     private fun elementDisplayed(element: WebElement): ExpectedCondition<Boolean> {
         return object : ExpectedCondition<Boolean> {
             override fun apply(input: WebDriver?): Boolean {
-                return isElementDisplayed(element)
+                return isElementVisible(element)
             }
 
             override fun toString(): String {
@@ -120,7 +142,7 @@ abstract class ScreenHandler(val driver: WebDriver) {
         }
     }
 
-    protected fun isElementDisplayed(
+    protected fun isElementVisible(
         element: WebElement,
         timeOut: Long = 0L
     ): Boolean {
@@ -131,24 +153,13 @@ abstract class ScreenHandler(val driver: WebDriver) {
                 )
         } catch (e: Exception) {
             when (e) {
-                is NoSuchElementException, is TimeoutException, is StaleElementReferenceException -> {
+                is NoSuchElementException, is TimeoutException, is StaleElementReferenceException, is RuntimeException -> {
                     return false
                 }
                 else -> throw e
             }
         }
         return true
-    }
-
-    protected fun isElementNotDisplayed(element: WebElement): Boolean {
-        return try {
-            !element.isDisplayed
-        } catch (e: Exception) {
-            when (e) {
-                is NoSuchElementException, is TimeoutException, is StaleElementReferenceException -> true
-                else -> throw e
-            }
-        }
     }
 
     enum class LocatorType(val prefix: String) {

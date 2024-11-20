@@ -14,7 +14,7 @@
         <parameter name="browser" value="${browser}">
         <parameter name="baseUrl" value="${baseUrl}">
             <classes>
-                <class name="tests.orderTests.OrderTests"/>
+                <class name="tests.shoppingCartTests.ShoppingCartTests"/>
             </classes>
         </parameter>
         </parameter>
