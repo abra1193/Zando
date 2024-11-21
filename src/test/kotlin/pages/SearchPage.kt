@@ -1,5 +1,6 @@
 package pages
 
+import base.Logger.log
 import base.ScreenHandler
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
@@ -62,7 +63,6 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
 
     fun selectProduct(): ProductPage {
         val products = driver.findElements(By.xpath(productPricesXpath))
-
         if (products.isNotEmpty()) {
             for (product in products) {
                 if (isElementVisible(product)) {

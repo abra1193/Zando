@@ -2,8 +2,6 @@ package tests.searchTests
 
 import base.BaseTest
 import io.kotest.matchers.booleans.shouldBeTrue
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.testng.annotations.Test
 import pages.SearchPage.ProductList
 
@@ -19,8 +17,6 @@ class SearchTests : BaseTest() {
         searchPage.searchProduct(productName)
 
         searchPage.isProductDisplayedOnSearchPage(productName).shouldBeTrue()
-        val t =LoggerFactory.getLogger("MyLogger")
-        t.error("fa")
     }
 
     @Test(priority = 1, dependsOnMethods = ["Verify user can search a product based on the given search keywords"])
