@@ -28,9 +28,10 @@ jobs:
         java-version: '17'
 
     - name: Set up Kotlin
-      uses: JetBrains/setup-kotlin@v1
-      with:
-        kotlin-version: '1.9.24'
+      run: |
+        curl -s "https://get.sdkman.io" | bash
+        source "$HOME/.sdkman/bin/sdkman-init.sh"
+        sdk install kotlin 1.9.24
 
     - name: Gradle
       uses: gradle/wrapper-validation-action@v1
