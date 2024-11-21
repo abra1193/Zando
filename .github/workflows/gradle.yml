@@ -76,9 +76,6 @@ jobs:
       - name: Build Project
         run: ./gradlew clean build
 
-      - name: Run Tests
-        run: ./gradlew test
-
       - name: Generate Allure Report
         run: ./gradlew allureReport
 
