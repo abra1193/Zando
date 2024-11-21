@@ -16,6 +16,8 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("org.seleniumhq.selenium:selenium-java:4.26.0")
     implementation("io.qameta.allure:allure-testng:2.29.0")
+    implementation("org.slf4j:slf4j-api:2.0.0")
+    implementation("ch.qos.logback:logback-classic:1.4.7")
     testImplementation("org.testng:testng:7.10.2")
     testImplementation("io.kotest:kotest-assertions-core-jvm:5.9.1")
     testImplementation("io.github.bonigarcia:webdrivermanager:5.9.2")

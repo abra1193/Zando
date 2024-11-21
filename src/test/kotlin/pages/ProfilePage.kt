@@ -1,5 +1,6 @@
 package pages
 
+import base.Log.log
 import base.ScreenHandler
 import org.openqa.selenium.WebDriver
 

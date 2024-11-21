@@ -25,6 +25,6 @@ class ShoppingCartTests : BaseTest() {
     }
 
     // Due to extra layer of security on the portal
-    // the test will only be asserting shopping cart update
+    // the test will only be asserting shopping cart updates
     // because login can't be reached
 }

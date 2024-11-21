@@ -4,6 +4,8 @@ import io.qameta.allure.Allure
 import org.openqa.selenium.OutputType
 import org.openqa.selenium.TakesScreenshot
 import org.openqa.selenium.WebDriver
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.testng.annotations.AfterMethod
 import org.testng.annotations.AfterTest
 import org.testng.annotations.BeforeClass
@@ -29,7 +31,7 @@ open class BaseTest {
     val productPage: ProductPage by lazy { ProductPage(driver) }
 
     @BeforeClass
-    fun setup() {
+    private fun setup() {
         val browser = System.getProperty("browser", "chrome")
         val url = System.getProperty("baseUrl", "https://en.zalando.de/")
 
