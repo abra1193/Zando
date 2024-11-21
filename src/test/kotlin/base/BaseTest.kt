@@ -1,6 +1,10 @@
 package base
 
+import io.qameta.allure.Allure
+import org.openqa.selenium.OutputType
+import org.openqa.selenium.TakesScreenshot
 import org.openqa.selenium.WebDriver
+import org.testng.annotations.AfterMethod
 import org.testng.annotations.AfterTest
 import org.testng.annotations.BeforeClass
 import pages.HomePage
@@ -8,6 +12,7 @@ import pages.ProductPage
 import pages.ProfilePage
 import pages.SearchPage
 import pages.ShoppingCartPage
+import java.io.ByteArrayInputStream
 import java.time.Duration
 
 open class BaseTest {
@@ -34,6 +39,21 @@ open class BaseTest {
                 manage().window().maximize()
                 get(url)
             }
+    }
+
+    @AfterMethod
+    fun captureScreenshotOnFailure() {
+        if (driver is TakesScreenshot) {
+            try {
+                val screenshotBytes = (driver as TakesScreenshot).getScreenshotAs(OutputType.BYTES)
+
+                val screenshotInputStream = ByteArrayInputStream(screenshotBytes)
+
+                Allure.addAttachment("Screenshot of failed tests", "image/png", screenshotInputStream, ".png")
+            } catch (e: Exception) {
+                println("Error capturing screenshot: ${e.message}")
+            }
+        }
     }
 
     @AfterTest
