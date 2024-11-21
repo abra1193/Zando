@@ -24,7 +24,8 @@ jobs:
     strategy:
       matrix:
         browser:
-          - ${{ github.event.inputs.browser }}
+          - chrome
+          - firefox
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
