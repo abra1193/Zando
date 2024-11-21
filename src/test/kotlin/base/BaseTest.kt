@@ -1,9 +1,12 @@
 package base
 
+import base.Logger.log
 import io.qameta.allure.Allure
 import org.openqa.selenium.OutputType
 import org.openqa.selenium.TakesScreenshot
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebDriverException
+import org.testng.ITestResult
 import org.testng.annotations.AfterMethod
 import org.testng.annotations.AfterTest
 import org.testng.annotations.BeforeClass
@@ -42,16 +45,26 @@ open class BaseTest {
     }
 
     @AfterMethod
-    fun captureScreenshotOnFailure() {
+    fun captureScreenshotOnFailure(result: ITestResult) {
         if (driver is TakesScreenshot) {
-            try {
-                val screenshotBytes = (driver as TakesScreenshot).getScreenshotAs(OutputType.BYTES)
+            if (result.status == ITestResult.FAILURE) {
+                if (driver is TakesScreenshot) {
+                    try {
+                        val screenshotBytes = (driver as TakesScreenshot).getScreenshotAs(OutputType.BYTES)
 
-                val screenshotInputStream = ByteArrayInputStream(screenshotBytes)
-
-                Allure.addAttachment("Screenshot of failed tests", "image/png", screenshotInputStream, ".png")
-            } catch (e: Exception) {
-                println("Error capturing screenshot: ${e.message}")
+                        val screenshotInputStream = ByteArrayInputStream(screenshotBytes)
+                        Allure.addAttachment(
+                            "Screenshot of failed tests",
+                            "image/png",
+                            screenshotInputStream,
+                            ".png"
+                        )
+                    } catch (e: WebDriverException) {
+                        log.error("Error in webdriver while capturig the screenshot: ${e.message}", e)
+                    } catch (e: Exception) {
+                        log.error("Exception while taking screenshot: ${e.message}", e)
+                    }
+                }
             }
         }
     }
