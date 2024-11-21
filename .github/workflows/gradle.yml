@@ -1,3 +1,5 @@
+name: Zando workflow
+
 on:
   push:
     branches:
