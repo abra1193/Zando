@@ -1,43 +1,47 @@
 name: Zando workflow
-'on':
+
+on:
   push:
     branches:
       - master
   pull_request:
     branches:
       - master
-workflow_dispatch:
-  inputs:
-    browser:
-      description: 'Choose the browser'
-      required: true
-      default: 'chrome'
-      type: choice
-      options:
-        - chrome
-        - firefox
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: 'Choose the browser'
+        required: true
+        default: 'chrome'
+        type: choice
+        options:
+          - chrome
+          - firefox
+
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         browser:
-          - chrome
-          - firefox
+          - ${{ github.event.inputs.browser }}
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v3
-      - name: JDK
+
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: '17'
+
       - name: Set up Kotlin
         run: |
           curl -s "https://get.sdkman.io" | bash
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk install kotlin 1.9.24
-      - name: Install Browsers
+
+      - name: Install Browsers (Conditionally)
         run: |
           if [ "${{ matrix.browser }}" == "chrome" ]; then
             echo "Installing Google Chrome..."
@@ -48,23 +52,30 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y firefox
           fi
+
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
-      - name: Environment variables
+
+      - name: Set up Environment Variables
         run: |
           echo "BROWSER=${{ matrix.browser }}" >> $GITHUB_ENV
           echo "BASE_URL=https://en.zalando.de" >> $GITHUB_ENV
+          # Set the browser version to use with WebDriverManager
           if [ "${{ matrix.browser }}" == "chrome" ]; then
             echo "BROWSER_VERSION=116.0.5845.96" >> $GITHUB_ENV
           elif [ "${{ matrix.browser }}" == "firefox" ]; then
             echo "BROWSER_VERSION=113.0" >> $GITHUB_ENV
           fi
-      - name: Build
+
+      - name: Build Project
         run: ./gradlew clean build
-      - name: Run tests
+
+      - name: Run Tests
         run: ./gradlew test
+
       - name: Generate Allure Report
         run: ./gradlew allureReport
+
       - name: Upload Allure report as an artifact
         uses: actions/upload-artifact@v3
         with:
