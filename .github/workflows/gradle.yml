@@ -1,69 +1,63 @@
 name: Zando workflow
-
-on:
+'on':
   push:
     branches:
       - master
   pull_request:
     branches:
       - master
-  workflow_dispatch:
-
+  workflow_dispatch: null
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        browser: [chrome, firefox]
-
+        browser:
+          - chrome
+          - firefox
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Set up Kotlin
+        run: |
+          curl -s "https://get.sdkman.io" | bash
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
+          sdk install kotlin 1.9.24
+      - name: Browsers and WebDriver
+        run: >
+          sudo apt-get update
 
-    - name: JDK
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+          sudo apt-get install -y google-chrome-stable firefox
 
-    - name: Set up Kotlin
-      run: |
-        curl -s "https://get.sdkman.io" | bash
-        source "$HOME/.sdkman/bin/sdkman-init.sh"
-        sdk install kotlin 1.9.24
+          sudo apt-get install -y chromium-driver
 
-    - name: Gradle
-      uses: gradle/wrapper-validation-action@v1
-      with:
-        gradle-version: '8.1'
+          sudo apt-get install -y wget
 
-    - name: Browsers and WebDriver
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable firefox
-        sudo apt-get install -y chromium-driver
-        sudo apt-get install -y wget
-        wget https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz
-        tar -xvzf geckodriver-v0.32.0-linux64.tar.gz
-        sudo mv geckodriver /usr/local/bin/
+          wget
+          https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz
 
-    - name: Browsers and Url
-      run: |
-        echo "BROWSER=${{ matrix.browser }}" >> $GITHUB_ENV
-        echo "BASE_URL=${{ secrets.BASE_URL }}" >> $GITHUB_ENV
+          tar -xvzf geckodriver-v0.32.0-linux64.tar.gz
 
-    - name: Build
-      run: ./gradlew clean build 
-
-    - name: Run tests
-      run: ./gradlew test
-
-    - name: Generate Allure Report
-      run: ./gradlew allureReport
-
-    - name: Upload Allure report as an artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: allure-report
-        path: build/reports/allure-report
+          sudo mv geckodriver /usr/local/bin/
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Browsers and Url
+        run: |
+          echo "BROWSER=${{ matrix.browser }}" >> $GITHUB_ENV
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> $GITHUB_ENV
+      - name: Build
+        run: ./gradlew clean build
+      - name: Run tests
+        run: ./gradlew test
+      - name: Generate Allure Report
+        run: ./gradlew allureReport
+      - name: Upload Allure report as an artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: build/reports/allure-report
