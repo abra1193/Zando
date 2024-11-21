@@ -1,5 +1,6 @@
 package base
 
+import base.Logger.log
 import io.github.bonigarcia.wdm.WebDriverManager.chromedriver
 import io.github.bonigarcia.wdm.WebDriverManager.firefoxdriver
 import org.openqa.selenium.WebDriver
@@ -11,6 +12,7 @@ import java.util.Locale
 
 object DriverFactory {
     fun initializeDriver(browserName: String): WebDriver {
+        log.info("Iniatilizing Webdriver for browser $browserName")
         return when (browserName.lowercase(Locale.getDefault())) {
             "chrome" -> {
                 chromedriver().setup()
@@ -22,6 +24,7 @@ object DriverFactory {
                 }
                 ChromeDriver(chromeOptions)
             }
+
             "firefox" -> {
                 firefoxdriver().setup()
                 val fireFoxOptions = FirefoxOptions()
@@ -31,7 +34,11 @@ object DriverFactory {
                 }
                 FirefoxDriver()
             }
-            else -> throw IllegalArgumentException("Browser $browserName not available")
+
+            else -> {
+                log.error("Browser '$browserName' is not iniatilized")
+                throw IllegalArgumentException("Browser $browserName not available")
+            }
         }
     }
 }

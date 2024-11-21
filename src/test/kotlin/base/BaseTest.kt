@@ -29,7 +29,7 @@ open class BaseTest {
     val productPage: ProductPage by lazy { ProductPage(driver) }
 
     @BeforeClass
-    private fun setup() {
+    fun setup() {
         val browser = System.getProperty("browser", "chrome")
         val url = System.getProperty("baseUrl", "https://en.zalando.de/")
 
