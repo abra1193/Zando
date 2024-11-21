@@ -16,7 +16,7 @@ object DriverFactory {
         return when (browserName.lowercase(Locale.getDefault())) {
             "chrome" -> {
                 chromedriver().apply {
-                    driverVersion("116.0.5845.96")
+                    driverVersion("BROWSER_VERSION") ?: "latest"
                 }.setup()
                 val chromeOptions = ChromeOptions()
                 chromeOptions.apply {
@@ -30,8 +30,7 @@ object DriverFactory {
 
             "firefox" -> {
                 firefoxdriver().apply {
-                    driverVersion("0.32.0")
-                    browserVersion("")
+                    driverVersion("BROWSER_VERSION") ?: "latest"
                 }.setup()
                 val fireFoxOptions = FirefoxOptions()
                 fireFoxOptions.apply {

@@ -54,7 +54,7 @@ jobs:
           elif [ "${{ matrix.browser }}" == "firefox" ]; then
             echo "Installing Firefox..."
             sudo apt-get update
-            sudo apt-get install -y firefox=113.0+build2-0ubuntu0.20.04.1
+            sudo apt-get install -y firefox
           fi
 
       - name: Validate Gradle Wrapper
@@ -68,7 +68,7 @@ jobs:
           if [ "${{ matrix.browser }}" == "chrome" ]; then
             echo "BROWSER_VERSION=116.0.5845.96" >> $GITHUB_ENV
           elif [ "${{ matrix.browser }}" == "firefox" ]; then
-            echo "BROWSER_VERSION=113.0" >> $GITHUB_ENV
+            echo "BROWSER_VERSION=119.0" >> $GITHUB_ENV
           fi
 
       - name: Build Project
