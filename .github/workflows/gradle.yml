@@ -28,22 +28,10 @@ jobs:
           curl -s "https://get.sdkman.io" | bash
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk install kotlin 1.9.24
-      - name: Browsers and WebDriver
-        run: >
+      - name: Install Browsers
+        run: |
           sudo apt-get update
-
           sudo apt-get install -y google-chrome-stable firefox
-
-          sudo apt-get install -y chromium-driver
-
-          sudo apt-get install -y wget
-
-          wget
-          https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz
-
-          tar -xvzf geckodriver-v0.32.0-linux64.tar.gz
-
-          sudo mv geckodriver /usr/local/bin/
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Environment variables
