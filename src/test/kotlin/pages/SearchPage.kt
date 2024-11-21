@@ -86,7 +86,7 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
         waitForElementToBeVisible(saveSortButton)
         saveSortButton.click()
 
-        Thread.sleep(5000) // Added Thread.sleep to allow the search page to fully load after the sorting
+        Thread.sleep(2000) // Added Thread.sleep to allow the search page to fully load after the sorting
 
         return this
     }

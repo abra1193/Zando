@@ -14,7 +14,7 @@ class ProductPage(driver: WebDriver) : ScreenHandler(driver) {
         findElement(LocatorType.XPATH, "//*[span[contains(text(), \"Add to bag\")]]")
     }
 
-    private val chooseSizeDropDown: ElementWrapper by lazy {
+    private val chooseYourSizeDropDown: ElementWrapper by lazy {
         findElement(LocatorType.XPATH, "//*[span[contains(text(), \"Choose your size\")]]")
     }
 
@@ -41,8 +41,8 @@ class ProductPage(driver: WebDriver) : ScreenHandler(driver) {
     }
 
     private fun selectProductSize() {
-        waitForElementToBeClickable(chooseSizeDropDown)
-        chooseSizeDropDown.click()
+        Thread.sleep(2000) // DropDown can't be interacted after navigating to the product page for first time
+        chooseYourSizeDropDown.click()
 
         isElementVisible(driver.findElement(By.xpath(productSizeXpath)))
 

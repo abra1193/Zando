@@ -10,7 +10,7 @@
         </parameter>
         </parameter>
     </test>
-    <test name ="OrderTests">
+    <test name ="ShoppingCartTests">
         <parameter name="browser" value="${browser}">
         <parameter name="baseUrl" value="${baseUrl}">
             <classes>

@@ -3,7 +3,6 @@ package pages
 import base.ScreenHandler
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
-import utils.TimeOuts.TIMEOUT_10_SECONDS
 
 private const val OK_BUTTON_CSS_SELECTOR = ".sc-dcJsrY.kXOIji"
 
@@ -25,7 +24,8 @@ class HomePage(driver: WebDriver) : ScreenHandler(driver) {
     }
 
     init {
-        waitForElementToBeVisible(profileButton, TIMEOUT_10_SECONDS)
+        Thread.sleep(3000) // Cookie banner will take some time to load
+        // since it's one of the first element to load in the home page
         cookiesBanner.webElement.shadowRoot.findElement(By.cssSelector(OK_BUTTON_CSS_SELECTOR)).click()
     }
 

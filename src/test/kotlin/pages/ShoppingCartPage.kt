@@ -38,7 +38,7 @@ class ShoppingCartPage(driver: WebDriver) : ScreenHandler(driver) {
             )
         )
 
-        Thread.sleep(2000) //Added because when updating the shopping cart the page takes too long to load
+        Thread.sleep(3000) // Added because when updating the shopping cart the shopping cart takes too long to load
 
         val totalPrice = totalPriceField.text
             .replace(" €", "").trim().replace(",", ".").toBigDecimal()
