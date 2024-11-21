@@ -15,7 +15,9 @@ object DriverFactory {
         log.info("Iniatilizing Webdriver for browser $browserName")
         return when (browserName.lowercase(Locale.getDefault())) {
             "chrome" -> {
-                chromedriver().setup()
+                chromedriver().apply {
+                    driverVersion("116.0.5845.96")
+                }.setup()
                 val chromeOptions = ChromeOptions()
                 chromeOptions.apply {
                     setExperimentalOption("excludeSwitches", listOf("enable-automation"))
@@ -27,14 +29,17 @@ object DriverFactory {
             }
 
             "firefox" -> {
-                firefoxdriver().setup()
+                firefoxdriver().apply {
+                    driverVersion("0.32.0")
+                    browserVersion("")
+                }.setup()
                 val fireFoxOptions = FirefoxOptions()
                 fireFoxOptions.apply {
                     addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu", "--window-size=1920x1080")
                     addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
                 }
                 log.info("FirefoxDriver setup complete.")
-                FirefoxDriver()
+                FirefoxDriver(fireFoxOptions)
             }
 
             else -> {

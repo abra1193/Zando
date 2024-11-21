@@ -6,7 +6,16 @@ name: Zando workflow
   pull_request:
     branches:
       - master
-  workflow_dispatch: null
+workflow_dispatch:
+  inputs:
+    browser:
+      description: 'Choose the browser'
+      required: true
+      default: 'chrome'
+      type: choice
+      options:
+        - chrome
+        - firefox
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,14 +39,26 @@ jobs:
           sdk install kotlin 1.9.24
       - name: Install Browsers
         run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable firefox
+          if [ "${{ matrix.browser }}" == "chrome" ]; then
+            echo "Installing Google Chrome..."
+            sudo apt-get update
+            sudo apt-get install -y google-chrome-stable
+          elif [ "${{ matrix.browser }}" == "firefox" ]; then
+            echo "Installing Firefox..."
+            sudo apt-get update
+            sudo apt-get install -y firefox
+          fi
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Environment variables
         run: |
           echo "BROWSER=${{ matrix.browser }}" >> $GITHUB_ENV
           echo "BASE_URL=https://en.zalando.de" >> $GITHUB_ENV
+          if [ "${{ matrix.browser }}" == "chrome" ]; then
+            echo "BROWSER_VERSION=116.0.5845.96" >> $GITHUB_ENV
+          elif [ "${{ matrix.browser }}" == "firefox" ]; then
+            echo "BROWSER_VERSION=113.0" >> $GITHUB_ENV
+          fi
       - name: Build
         run: ./gradlew clean build
       - name: Run tests
