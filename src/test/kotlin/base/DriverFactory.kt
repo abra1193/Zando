@@ -13,10 +13,11 @@ import java.util.Locale
 object DriverFactory {
     fun initializeDriver(browserName: String): WebDriver {
         log.info("Iniatilizing Webdriver for browser $browserName")
+        val browserVersion = System.getenv("BROWSER_VERSION") ?: "latest"
         return when (browserName.lowercase(Locale.getDefault())) {
             "chrome" -> {
                 chromedriver().apply {
-                    driverVersion("BROWSER_VERSION") ?: "latest"
+                    driverVersion(browserVersion)
                 }.setup()
                 val chromeOptions = ChromeOptions()
                 chromeOptions.apply {
@@ -30,7 +31,7 @@ object DriverFactory {
 
             "firefox" -> {
                 firefoxdriver().apply {
-                    driverVersion("BROWSER_VERSION") ?: "latest"
+                    driverVersion(browserVersion)
                 }.setup()
                 val fireFoxOptions = FirefoxOptions()
                 fireFoxOptions.apply {
