@@ -55,7 +55,7 @@ tasks.allureReport {
 
         if (reportDir.exists()) {
             val localUrl =
-                "$serverUrl/${projectDir.name}${reportDir.absolutePath.substringAfter(projectDir.absolutePath)}"
+                "$serverUrl${reportDir.absolutePath.substringAfter(File("build").absolutePath).replace(File.separatorChar, '/')}"
             log.info("Allure Report located on: $localUrl")
         } else {
             log.error("Allure report not found at ${reportDir.absolutePath}")
