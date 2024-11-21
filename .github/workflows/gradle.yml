@@ -28,7 +28,7 @@ jobs:
         java-version: '17'
 
     - name: Set up Kotlin
-      uses: actions/setup-kotlin@v1
+      uses: JetBrains/setup-kotlin@v1
       with:
         kotlin-version: '1.9.24'
 
