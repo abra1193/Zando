@@ -1,3 +1,6 @@
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
 plugins {
     val kotlinVersion = "1.9.24"
     kotlin("jvm") version kotlinVersion
@@ -23,6 +26,8 @@ dependencies {
     testImplementation("io.github.bonigarcia:webdrivermanager:5.9.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.8.0")
 }
+
+val log: Logger = LoggerFactory.getLogger("Logger")
 
 tasks.test {
     useTestNG {
@@ -51,9 +56,9 @@ tasks.allureReport {
         if (reportDir.exists()) {
             val localUrl =
                 "$serverUrl/${projectDir.name}${reportDir.absolutePath.substringAfter(projectDir.absolutePath)}"
-            println("Allure Report located in: $localUrl")
+            log.info("Allure Report located on: $localUrl")
         } else {
-            println("Allure report not found at ${reportDir.absolutePath}")
+            log.error("Allure report not found at ${reportDir.absolutePath}")
         }
     }
 }

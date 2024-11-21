@@ -46,10 +46,10 @@ jobs:
           sudo mv geckodriver /usr/local/bin/
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
-      - name: Browsers and Url
+      - name: Environment variables
         run: |
           echo "BROWSER=${{ matrix.browser }}" >> $GITHUB_ENV
-          echo "BASE_URL=${{ secrets.BASE_URL }}" >> $GITHUB_ENV
+          echo "BASE_URL=https://en.zalando.de" >> $GITHUB_ENV
       - name: Build
         run: ./gradlew clean build
       - name: Run tests
