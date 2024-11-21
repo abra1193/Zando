@@ -47,11 +47,14 @@ jobs:
           if [ "${{ matrix.browser }}" == "chrome" ]; then
             echo "Installing Google Chrome..."
             sudo apt-get update
-            sudo apt-get install -y google-chrome-stable
+            sudo apt-get install -y wget
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo dpkg -i google-chrome-stable_current_amd64.deb
+            sudo apt-get install -f -y
           elif [ "${{ matrix.browser }}" == "firefox" ]; then
             echo "Installing Firefox..."
             sudo apt-get update
-            sudo apt-get install -y firefox
+            sudo apt-get install -y firefox=113.0+build2-0ubuntu0.20.04.1
           fi
 
       - name: Validate Gradle Wrapper
