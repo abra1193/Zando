@@ -9,7 +9,7 @@ class ShoppingCartTests : BaseTest() {
     @Test(priority = 0)
     fun `Verify user can add a product in the shopping cart`() {
         homePage.tapOnSearchButton()
-        searchPage.searchProduct("New Balance 9060")
+        searchPage.searchProduct("Bershka jeans")
 
         searchPage.selectProduct()
         productPage.addProductToBag()
@@ -19,10 +19,12 @@ class ShoppingCartTests : BaseTest() {
 
     @Test(priority = 1, dependsOnMethods = ["Verify user can add a product in the shopping cart"])
     fun `Verify user can update the shopping cart`() {
+        val productPrice = shoppingCartPage.getProductPrice()
 
+        shoppingCartPage.verifyCartUpdate(productPrice).shouldBeTrue()
     }
 
-    @Test(priority = 2, dependsOnMethods = ["Verify user can update the shopping cart"])
-    fun `Verify user can proceed to the checkout page`() {
-    }
+    // Due to extra layer of security on the portal
+    // the test will only be asserting shopping cart update
+    // because login can't be reached
 }

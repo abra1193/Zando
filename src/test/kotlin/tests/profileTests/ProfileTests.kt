@@ -12,6 +12,6 @@ class ProfileTests : BaseTest() {
 
         profilePage.isProfilePageDisplayedCorrectly().shouldBeTrue()
     }
-    // Due to extra layer of security on portal
+    // Due to extra layer of security on the portal
     // the test will only be asserting presence of element on sign in page
 }

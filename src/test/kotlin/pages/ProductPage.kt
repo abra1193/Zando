@@ -3,9 +3,10 @@ package pages
 import base.ScreenHandler
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
+import utils.TimeOuts.TIMEOUT_10_SECONDS
 
-var productSizeXpath = "//div[@role='listitem'" +
-    " and .//span[string-length(text()) > 0] and not(.//span[contains(text(), 'Notify Me')])]"
+var productSizeXpath = "//div[@role='listitem' and .//span[string-length(text()) > 0]" +
+    "and not(.//span[contains(text(), 'Notify Me')]) and not(.//span[contains(text(), 'Only 1 left')])]"
 
 class ProductPage(driver: WebDriver) : ScreenHandler(driver) {
 
@@ -34,7 +35,7 @@ class ProductPage(driver: WebDriver) : ScreenHandler(driver) {
         waitForElementToBeVisible(addToBagButton)
         addToBagButton.click()
 
-        waitForElementToBeClickable(shoppingCartButton)
+        waitForElementToBeClickable(shoppingCartButton, TIMEOUT_10_SECONDS)
         shoppingCartButton.click()
         return ShoppingCartPage(driver)
     }
@@ -45,7 +46,7 @@ class ProductPage(driver: WebDriver) : ScreenHandler(driver) {
 
         isElementVisible(driver.findElement(By.xpath(productSizeXpath)))
 
-        val availableSizeElements = driver.findElements(By.xpath(productSizeXpath))
+        val availableSizeElements = driver.findElements(By.xpath(productSizeXpath)) ?: error("No size available")
 
         val randomSizeElement = availableSizeElements.map { it.text }.random().split("\n")[0]
 
