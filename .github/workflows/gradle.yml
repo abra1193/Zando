@@ -95,5 +95,5 @@ jobs:
         uses: slackapi/slack-github-action@v1
         with:
           channel: '#all-zando-notification-test'
-          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook_url: ${{ secrets.SLACK_BOT_TOKEN }}
           text: "The tests have failed! Please check the details."
