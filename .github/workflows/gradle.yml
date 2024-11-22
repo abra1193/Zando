@@ -77,18 +77,11 @@ jobs:
         run: |
           if [ "${{ matrix.browser }}" == "chrome" ]; then
             mkdir -p build/reports/allure-report/chrome
-            cp -r build/reports/allure-report/allureReport/* build/reports/allure-report/chrome/
+            cp -r build/reports/allure-report/allureReport/. build/reports/allure-report/chrome/
           elif [ "${{ matrix.browser }}" == "firefox" ]; then
             mkdir -p build/reports/allure-report/firefox
             cp -r build/reports/allure-report/allureReport/* build/reports/allure-report/firefox/
           fi
-
-      - name: List files in chrome directory
-        run: ls -la build/reports/allure-report/chrome
-
-#      - name: List files in firefox directory
-#        run: ls -la build/reports/allure-report/firefox
-
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
