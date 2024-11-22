@@ -85,11 +85,20 @@ The base directory contains helper classes for WebDriver initialization, element
 <div style="text-align: justify">
 The tests in this framework are organized into page objects and test classes. The Page Object Model (POM) pattern is used to abstract the web page interactions into separate objects, making the code easier to maintain and scale as the application evolves.</div>
 
-## CI/CD Integration
+# CI/CD Integration
 [![Zando workflow](https://github.com/abra1193/Zando/actions/workflows/gradle.yml/badge.svg)](https://github.com/abra1193/Zando/actions/workflows/gradle.yml)
 
 This framework is integrated with GitHub Actions to run tests automatically on every pull request change or commit to master. The configuration for running the tests is defined in `.github/workflows/gradle.yml`. This enables seamless continuous integration, ensuring that tests are run on every change.
-  
+
+## Steps to execute Zando workflow
+
+- Click on **Actions** button on the Github top menu
+
+- Click on **Zando workflow** button in the **Actions** left pane
+- Click on the right pane on **Run workflow** button
+- Select your **branch or master** and select the browser you want to execute the test
+- Click on **Run workflow**
+- Now you will see the **Zando workflow** in the queue executing or waiting to be executed, if you tap on it you can see the console ouput logs.
 
 
 
