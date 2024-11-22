@@ -42,7 +42,7 @@ jobs:
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk install kotlin 1.9.24
 
-      - name: Install Browsers
+      - name: Environment set up
         run: |
           if [ "${{ matrix.browser }}" == "chrome" ]; then
             echo "Installing Google Chrome..."
@@ -66,7 +66,7 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Set up Environment Variables
+      - name: Environment Variables set up
         run: |
           echo "BROWSER=${{ matrix.browser }}" >> $GITHUB_ENV
           echo "BASE_URL=https://en.zalando.de" >> $GITHUB_ENV
@@ -75,16 +75,19 @@ jobs:
       - name: Build Project
         run: ./gradlew clean test
 
-      - name: Upload Allure report artifacts
+      - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: allure-report
           path: build/reports/allure-report
 
-      - name: Deploy Allure Report to GitHub Pages
+      - name: Publish reports
         if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GH_TOKEN }}
           branch: gh-pages
-          publish_dir: build/reports/allure-report/allureReport
+          publish_dir: |
+            ${{ matrix.browser == 'chrome' && 'build/reports/allure-report/chrome' || '' }}
+            ${{ matrix.browser == 'firefox' && 'build/reports/allure-report/firefox' || '' }}
+
