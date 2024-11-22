@@ -74,10 +74,18 @@ jobs:
           echo "BROWSER_VERSION=${{ env.BROWSER_VERSION }}" >> $GITHUB_ENV
 
       - name: Build Project
-        run: ./gradlew clean build
+        run: ./gradlew clean test
 
-      - name: Upload Allure report as an artifact
+      - name: Upload Allure report artifacts
         uses: actions/upload-artifact@v3
         with:
           name: allure-report
           path: build/reports/allure-report
+
+      - name: Deploy Allure Report to GitHub Pages
+        if: success()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: build/reports/allure-report
