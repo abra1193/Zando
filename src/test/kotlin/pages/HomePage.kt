@@ -24,9 +24,13 @@ class HomePage(driver: WebDriver) : ScreenHandler(driver) {
     }
 
     init {
-        Thread.sleep(3000) // Cookie banner will take some time to load
-        // since it's one of the first element to load in the home page
-        cookiesBanner.webElement.shadowRoot.findElement(By.cssSelector(OK_BUTTON_CSS_SELECTOR)).click()
+        try {
+            Thread.sleep(3000) // Cookie banner will take some time to load
+            // since it's one of the first element to load in the home page
+            cookiesBanner.webElement.shadowRoot.findElement(By.cssSelector(OK_BUTTON_CSS_SELECTOR)).click()
+        } catch (e: Exception) {
+            println("Cookie banner not found or couldn't be clicked: ${e.message}")
+        }
     }
 
     fun tapOnProfileButton() {

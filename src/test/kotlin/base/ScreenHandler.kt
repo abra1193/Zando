@@ -11,6 +11,8 @@ import org.openqa.selenium.support.PageFactory
 import org.openqa.selenium.support.ui.ExpectedCondition
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
+import utils.TimeOuts.TIMEOUT_10_SECONDS
+import utils.TimeOuts.TIMEOUT_5_SECONDS
 import java.time.Duration
 import kotlin.NoSuchElementException
 
@@ -103,7 +105,7 @@ abstract class ScreenHandler(val driver: WebDriver) {
 
     protected fun waitForElementToBeVisible(
         elementWrapper: ElementWrapper,
-        timeOut: Long = 0L
+        timeOut: Long = TIMEOUT_5_SECONDS
     ) {
         try {
             WebDriverWait(driver, Duration.ofSeconds(timeOut))
@@ -116,7 +118,7 @@ abstract class ScreenHandler(val driver: WebDriver) {
 
     protected fun waitForElementToBeClickable(
         elementWrapper: ElementWrapper,
-        timeOut: Long = 0L
+        timeOut: Long = TIMEOUT_5_SECONDS
     ) {
         try {
             WebDriverWait(driver, Duration.ofSeconds(timeOut))
@@ -141,7 +143,7 @@ abstract class ScreenHandler(val driver: WebDriver) {
 
     protected fun isElementVisible(
         element: WebElement,
-        timeOut: Long = 0L
+        timeOut: Long = TIMEOUT_10_SECONDS
     ): Boolean {
         try {
             WebDriverWait(driver, Duration.ofSeconds(timeOut))

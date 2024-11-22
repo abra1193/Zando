@@ -2,6 +2,7 @@ package pages
 
 import base.ScreenHandler
 import org.openqa.selenium.WebDriver
+import utils.TimeOuts.TIMEOUT_5_SECONDS
 
 class ProfilePage(driver: WebDriver) : ScreenHandler(driver) {
     private val emailField: ElementWrapper by lazy {
@@ -12,32 +13,18 @@ class ProfilePage(driver: WebDriver) : ScreenHandler(driver) {
         findElement(LocatorType.XPATH, "//*[@data-testid='verify-email-button']")
     }
 
-    private val passwordField: ElementWrapper by lazy {
-        findElement(LocatorType.ID, "register-password")
-    }
-
-    private val firstNameField: ElementWrapper by lazy {
-        findElement(LocatorType.ID, "first_name")
-    }
-
-    private val lastNameField: ElementWrapper by lazy {
-        findElement(LocatorType.ID, "last_name")
-    }
-
-    private val registerButton: ElementWrapper by lazy {
-        findElement(LocatorType.XPATH, "//*[@data-testid='register-button']")
-    }
+    private val xpath = "//span[normalize-space()='%s']"
 
     private val continueWithGoogleButton: ElementWrapper by lazy {
-        findElement(LocatorType.XPATH, "//span[normalize-space()=\"Continue with Google\"]")
+        findElement(LocatorType.XPATH, xpath.format("Continue with Google"))
     }
 
     private val continueWithFacebookButton: ElementWrapper by lazy {
-        findElement(LocatorType.XPATH, "//span[normalize-space()=\"Continue with Facebook\"]")
+        findElement(LocatorType.XPATH, xpath.format("Continue with Facebook"))
     }
 
     private val continueWithAppleButton: ElementWrapper by lazy {
-        findElement(LocatorType.XPATH, "//span[normalize-space()=\"Continue with Apple\"]")
+        findElement(LocatorType.XPATH, xpath.format("Continue with Apple"))
     }
 
     private val signOrRegisterText: ElementWrapper by lazy {
@@ -47,16 +34,17 @@ class ProfilePage(driver: WebDriver) : ScreenHandler(driver) {
     fun isProfilePageDisplayedCorrectly(): Boolean {
         waitForElementToBeVisible(signOrRegisterText)
 
-        waitForElementToBeClickable(emailField)
+        val elementsToCheck = listOf(
+            emailField,
+            continueButton,
+            continueWithGoogleButton,
+            continueWithFacebookButton,
+            continueWithAppleButton
+        )
 
-        waitForElementToBeClickable(continueButton)
+        elementsToCheck.forEach { waitForElementToBeClickable(it, TIMEOUT_5_SECONDS) }
 
-        waitForElementToBeClickable(continueWithGoogleButton)
-
-        waitForElementToBeClickable(continueWithAppleButton)
-
-        waitForElementToBeClickable(continueWithFacebookButton)
-
-        return signOrRegisterText.isDisplayed() && emailField.isDisplayed() && continueButton.isDisplayed() && continueWithGoogleButton.isDisplayed() && continueWithAppleButton.isDisplayed() && continueWithFacebookButton.isDisplayed()
+        return signOrRegisterText.isDisplayed() &&
+            elementsToCheck.all { it.isDisplayed() }
     }
 }
