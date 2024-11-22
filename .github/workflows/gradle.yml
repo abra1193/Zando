@@ -57,13 +57,14 @@ jobs:
             echo "Installed Firefox version: $FIREFOX_VERSION"
             echo "BROWSER_VERSION=$FIREFOX_VERSION" >> $GITHUB_ENV
           fi
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
       - name: Environment Variables set up
         run: |
           echo "BROWSER=${{ matrix.browser }}" >> $GITHUB_ENV
           echo "BASE_URL=https://en.zalando.de" >> $GITHUB_ENV
           echo "BROWSER_VERSION=${{ env.BROWSER_VERSION }}" >> $GITHUB_ENV
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+
       - name: Build Project
         run: ./gradlew clean test
       - name: Create reports folders
