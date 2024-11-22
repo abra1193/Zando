@@ -31,20 +31,6 @@ The use of Page Object Model (POM) was an obvious choice to ensure that the test
 * **Parallel-testing ready:** The framework was built to be executed in paralell and in any CI/CD platform.
 
 # Project Setup
-```
-├── src
-│   ├── main
-│   │   └── kotlin
-│   │       └── pages         # Contains the Page Object Model classes
-│   │       └── base          # Contains base classes, utilities, and configuration
-│   ├── test
-│   │   └── kotlin
-│   │       └── tests         # Contains the test classes
-├── build.gradle              # Gradle build configuration
-├── gradle                    # Gradle wrapper files
-├── README.md                 # Project documentation
-└── .github                   # GitHub Actions configuration
-```
 
 ## Page Objects
 The pages directory contains all the page object classes, which define actions and elements for specific pages (e.g., SearchPage, ShoppingCartPage).
@@ -54,6 +40,9 @@ The tests directory holds the TestNG test classes, which contain the actual test
 
 ## Base
 The base directory contains helper classes for WebDriver initialization, element interactions, and common utilities.
+
+## Features
+The feature directory hold the the files cotaining the feature description, scenarios and steps for testing the portal.
 
 ## Prerequisites
 
