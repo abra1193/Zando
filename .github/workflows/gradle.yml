@@ -1,6 +1,5 @@
 name: Zando workflow
-
-on:
+'on':
   push:
     branches:
       - master
@@ -10,14 +9,13 @@ on:
   workflow_dispatch:
     inputs:
       browser:
-        description: "Choose the browser"
+        description: Choose the browser
         required: true
-        default: "chrome"
+        default: chrome
         type: choice
         options:
           - chrome
           - firefox
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,19 +27,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: "17"
-
+          java-version: '17'
       - name: Set up Kotlin
         run: |
           curl -s "https://get.sdkman.io" | bash
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk install kotlin 1.9.24
-
       - name: Environment set up
         run: |
           if [ "${{ matrix.browser }}" == "chrome" ]; then
@@ -62,32 +57,39 @@ jobs:
             echo "Installed Firefox version: $FIREFOX_VERSION"
             echo "BROWSER_VERSION=$FIREFOX_VERSION" >> $GITHUB_ENV
           fi
-
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
-
       - name: Environment Variables set up
         run: |
           echo "BROWSER=${{ matrix.browser }}" >> $GITHUB_ENV
           echo "BASE_URL=https://en.zalando.de" >> $GITHUB_ENV
           echo "BROWSER_VERSION=${{ env.BROWSER_VERSION }}" >> $GITHUB_ENV
-
       - name: Build Project
         run: ./gradlew clean test
+      - name: Create reports folders
+        run: |
+          mkdir -p build/reports/allure-report/chrome
+          mkdir -p build/reports/allure-report/firefox
 
+          if [ "${{ matrix.browser }}" == "chrome" ]; then
+          mv build/reports/allure-report/* build/reports/allure-report/chrome/
+          elif [ "${{ matrix.browser }}" == "firefox" ]; then
+          mv build/reports/allure-report/* build/reports/allure-report/firefox/
+          fi
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: allure-report
           path: build/reports/allure-report
-
       - name: Publish reports
         if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GH_TOKEN }}
+          github_token: '${{ secrets.GH_TOKEN }}'
           branch: gh-pages
-          publish_dir: |
-            ${{ matrix.browser == 'chrome' && 'build/reports/allure-report/chrome' || '' }}
-            ${{ matrix.browser == 'firefox' && 'build/reports/allure-report/firefox' || '' }}
+          publish_dir: >
+            ${{ matrix.browser == 'chrome' &&
+            'build/reports/allure-report/chrome' || '' }}
 
+            ${{ matrix.browser == 'firefox' &&
+            'build/reports/allure-report/firefox' || '' }}
