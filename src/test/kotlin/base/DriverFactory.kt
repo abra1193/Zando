@@ -30,6 +30,7 @@ object DriverFactory {
             }
 
             "firefox" -> {
+                log.info("Using Firefox version: ${System.getenv("BROWSER_VERSION")}")
                 firefoxdriver().apply {
                     driverVersion(browserVersion)
                 }.setup()

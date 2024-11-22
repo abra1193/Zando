@@ -57,8 +57,7 @@ jobs:
           elif [ "${{ matrix.browser }}" == "firefox" ]; then
             echo "Installing Firefox..."
             sudo apt update
-            sudo apt install -y snapd
-            sudo snap install firefox --channel=latest/stable
+            sudo apt install -y firefox
             FIREFOX_VERSION=$(firefox --version | awk '{print $3}')
             echo "Installed Firefox version: $FIREFOX_VERSION"
             echo "BROWSER_VERSION=$FIREFOX_VERSION" >> $GITHUB_ENV
