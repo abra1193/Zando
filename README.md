@@ -88,7 +88,7 @@ The tests in this framework are organized into page objects and test classes. Th
 ## CI/CD Integration
 [![Zando workflow](https://github.com/abra1193/Zando/actions/workflows/gradle.yml/badge.svg)](https://github.com/abra1193/Zando/actions/workflows/gradle.yml)
 
-This framework is integrated with GitHub Actions to run tests automatically on every pull request change. The configuration for running the tests is defined in `.github/workflows/gradle.yml`. This enables seamless continuous integration, ensuring that tests are run on every change.
+This framework is integrated with GitHub Actions to run tests automatically on every pull request change or commit to master. The configuration for running the tests is defined in `.github/workflows/gradle.yml`. This enables seamless continuous integration, ensuring that tests are run on every change.
   
 
 
