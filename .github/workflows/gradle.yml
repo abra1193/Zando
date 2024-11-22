@@ -71,12 +71,13 @@ jobs:
         run: |
           mkdir -p build/reports/allure-report/chrome
           mkdir -p build/reports/allure-report/firefox
-
+          
           if [ "${{ matrix.browser }}" == "chrome" ]; then
-          mv build/reports/allure-report/* build/reports/allure-report/chrome/
+            cp -r build/reports/allure-report/allureReport/* build/reports/allure-report/chrome/
           elif [ "${{ matrix.browser }}" == "firefox" ]; then
-          mv build/reports/allure-report/* build/reports/allure-report/firefox/
+            cp -r build/reports/allure-report/allureReport/* build/reports/allure-report/firefox/
           fi
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
