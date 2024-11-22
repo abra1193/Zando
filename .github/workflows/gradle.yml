@@ -89,11 +89,3 @@ jobs:
           github_token: '${{ secrets.GH_TOKEN }}'
           branch: gh-pages
           publish_dir: 'build/reports/allure-report'
-
-      - name: Notify on failure (Slack)
-        if: failure()
-        uses: slackapi/slack-github-action@v1
-        with:
-          channel: '#all-zando-notification-test'
-          webhook_url: ${{ secrets.SLACK_BOT_TOKEN }}
-          text: "The tests have failed! Please check the details."
