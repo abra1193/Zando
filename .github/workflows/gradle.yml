@@ -16,6 +16,7 @@ on:
         type: choice
         options:
           - chrome
+          - firefox
 
 jobs:
   build:
@@ -24,6 +25,7 @@ jobs:
       matrix:
         browser:
           - chrome
+          - firefox
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -59,6 +61,14 @@ jobs:
             FIREFOX_VERSION=$(firefox --version | awk '{print $3}')
             echo "Installed Firefox version: $FIREFOX_VERSION"
             echo "BROWSER_VERSION=$FIREFOX_VERSION" >> $GITHUB_ENV
+          fi
+          
+            GECKODRIVER_VERSION=$(curl -sS https://github.com/mozilla/geckodriver/releases/latest | grep -oP 'geckodriver-v\K[0-9]+\.[0-9]+\.[0-9]+' | head -n 1)
+            echo "Installing Geckodriver version: $GECKODRIVER_VERSION"
+            wget https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-linux64.tar.gz
+            tar -xvzf geckodriver-linux64.tar.gz
+            sudo mv geckodriver /usr/local/bin/
+            sudo chmod +x /usr/local/bin/geckodriver
           fi
 
       - name: Environment Variables set up
