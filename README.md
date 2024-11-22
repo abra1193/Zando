@@ -88,6 +88,7 @@ This framework is integrated with GitHub Actions to run tests automatically on e
 - Select your **branch or master** and select the browser you want to execute the test
 - Click on **Run workflow**
 - Now you will see the **Zando workflow** in the queue executing or waiting to be executed, if you tap on it you can see the console ouput logs.
+- After this reports will be available(chrome for the moment) on my personal page https://abra1193.github.io/Zando 
 
 
 
