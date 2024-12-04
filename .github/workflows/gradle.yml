@@ -16,16 +16,10 @@ on:
         type: choice
         options:
           - chrome
-          - firefox
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        browser:
-          - chrome
-          - firefox
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -42,31 +36,21 @@ jobs:
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk install kotlin 1.9.24
 
-      - name: Environment set up
+      - name: Install Google Chrome
         run: |
-          if [ "${{ matrix.browser }}" == "chrome" ]; then
-            echo "Installing Google Chrome..."
-            sudo apt-get update
-            sudo apt-get install -y wget
-            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-            sudo dpkg -i google-chrome-stable_current_amd64.deb
-            sudo apt-get install -f -y
-            CHROME_VERSION=$(google-chrome-stable --version | awk '{print $3}')
-            echo "Installed Chrome version: $CHROME_VERSION"
-            echo "BROWSER_VERSION=$CHROME_VERSION" >> $GITHUB_ENV
-          elif [ "${{ matrix.browser }}" == "firefox" ]; then
-            echo "Installing Firefox..."
-            sudo apt update
-            sudo apt install -y firefox
-           sudo apt install -y wget curl unzip
-            FIREFOX_VERSION=$(firefox --version | awk '{print $3}')
-            echo "Installed Firefox version: $FIREFOX_VERSION"
-            echo "BROWSER_VERSION=$FIREFOX_VERSION" >> $GITHUB_ENV
-          fi
+          echo "Installing Google Chrome..."
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo dpkg -i google-chrome-stable_current_amd64.deb
+          sudo apt-get install -f -y
+          CHROME_VERSION=$(google-chrome-stable --version | awk '{print $3}')
+          echo "Installed Chrome version: $CHROME_VERSION"
+          echo "BROWSER_VERSION=$CHROME_VERSION" >> $GITHUB_ENV
 
       - name: Environment Variables set up
         run: |
-          echo "BROWSER=${{ matrix.browser }}" >> $GITHUB_ENV
+          echo "BROWSER=chrome" >> $GITHUB_ENV
           echo "BASE_URL=https://en.zalando.de" >> $GITHUB_ENV
           echo "BROWSER_VERSION=${{ env.BROWSER_VERSION }}" >> $GITHUB_ENV
 
