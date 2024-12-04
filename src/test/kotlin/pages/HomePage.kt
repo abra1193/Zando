@@ -1,5 +1,6 @@
 package pages
 
+import base.Logger.log
 import base.ScreenHandler
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
@@ -29,7 +30,7 @@ class HomePage(driver: WebDriver) : ScreenHandler(driver) {
             // since it's one of the first element to load in the home page
             cookiesBanner.webElement.shadowRoot.findElement(By.cssSelector(OK_BUTTON_CSS_SELECTOR)).click()
         } catch (e: Exception) {
-            println("Cookie banner not found or couldn't be clicked: ${e.message}")
+            log.info("Cookie banner not found or couldn't be clicked: ${e.message}")
         }
     }
 

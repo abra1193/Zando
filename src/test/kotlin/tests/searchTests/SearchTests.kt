@@ -1,7 +1,6 @@
 package tests.searchTests
 
 import base.BaseTest
-import io.kotest.matchers.booleans.shouldBeTrue
 import org.testng.annotations.Test
 import pages.SearchPage.ProductList
 import kotlin.test.assertTrue
@@ -17,7 +16,10 @@ class SearchTests : BaseTest() {
         homePage.tapOnSearchButton()
         searchPage.searchProduct(productName)
 
-        assertTrue(searchPage.isProductDisplayedOnSearchPage(productName), "Product displayed on the search page correctly")
+        assertTrue(
+            searchPage.isProductDisplayedOnSearchPage(productName),
+            "Product displayed on the search page correctly"
+        )
     }
 
     @Test(priority = 1, dependsOnMethods = ["Verify user can search a product based on the given search keywords"])
@@ -34,6 +36,9 @@ class SearchTests : BaseTest() {
     fun `Verify user can sort search results based on the given filters`() {
         searchPage.sortProduct()
 
-        assertTrue(searchPage.isProductWithinSearchCriteria().shouldBeTrue(), "Product sorted on the result search page are within search criteria")
+        assertTrue(
+            searchPage.isProductWithinSearchCriteria(),
+            "Product sorted on the result search page are within search criteria"
+        )
     }
 }

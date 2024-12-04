@@ -5,7 +5,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import utils.TimeOuts.TIMEOUT_10_SECONDS
 
-var mininumPrice = ""
+var minimumPrice = ""
 var maximumPrice = ""
 var productPricesXpath = "//span[contains(text(), '€') and string-length(text()) > 3 and " +
     "     not(preceding-sibling::span[contains(text(), 'Originally')]) and" +
@@ -98,7 +98,7 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
         dealsPriceFilterButton.click()
 
         waitForElementToBeVisible(minimumPriceField)
-        mininumPrice = getTextFromField(minimumPriceField)
+        minimumPrice = getTextFromField(minimumPriceField)
 
         waitForElementToBeVisible(maximumPriceField)
         maximumPrice = getTextFromField(maximumPriceField)
@@ -151,9 +151,9 @@ class SearchPage(driver: WebDriver) : ScreenHandler(driver) {
             }
         return if (amountInList.isNotEmpty()) {
             if (isFirstPriceEqualToMin) {
-                amountInList.first() >= mininumPrice.toFloat() && amountInList.first() <= maximumPrice.toFloat()
+                amountInList.first() >= minimumPrice.toFloat() && amountInList.first() <= maximumPrice.toFloat()
             } else {
-                amountInList.any { amount -> amount in mininumPrice.toFloat()..maximumPrice.toFloat() }
+                amountInList.any { amount -> amount in minimumPrice.toFloat()..maximumPrice.toFloat() }
             }
         } else {
             false

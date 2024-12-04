@@ -46,25 +46,21 @@ open class BaseTest {
 
     @AfterMethod
     fun captureScreenshotOnFailure(result: ITestResult) {
-        if (driver is TakesScreenshot) {
-            if (result.status == ITestResult.FAILURE) {
-                if (driver is TakesScreenshot) {
-                    try {
-                        val screenshotBytes = (driver as TakesScreenshot).getScreenshotAs(OutputType.BYTES)
-
-                        val screenshotInputStream = ByteArrayInputStream(screenshotBytes)
-                        Allure.addAttachment(
-                            "Screenshot of failed tests",
-                            "image/png",
-                            screenshotInputStream,
-                            ".png"
-                        )
-                    } catch (e: WebDriverException) {
-                        log.error("Error in webdriver while capturig the screenshot: ${e.message}", e)
-                    } catch (e: Exception) {
-                        log.error("Exception while taking screenshot: ${e.message}", e)
-                    }
+        if (result.status == ITestResult.FAILURE && driver is TakesScreenshot) {
+            try {
+                val screenshotBytes = (driver as TakesScreenshot).getScreenshotAs(OutputType.BYTES)
+                ByteArrayInputStream(screenshotBytes).use { screenshotInputStream ->
+                    Allure.addAttachment(
+                        "Screenshot of failed test: ${result.name}",
+                        "image/png",
+                        screenshotInputStream,
+                        ".png"
+                    )
                 }
+            } catch (e: WebDriverException) {
+                log.error("WebDriverException while capturing screenshot: ${e.message}", e)
+            } catch (e: Exception) {
+                log.error("Unexpected exception while capturing screenshot: ${e.message}", e)
             }
         }
     }
